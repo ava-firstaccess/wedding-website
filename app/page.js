@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Nav from './components/Nav'
 import WelcomeOverlay from './components/WelcomeOverlay'
-import ScrollIndicator from './components/ScrollIndicator'
 import styles from './page.module.css'
 
 export default function Home() {
@@ -14,7 +13,7 @@ export default function Home() {
     // Fade in after welcome overlay starts fading (2s delay)
     const timer = setTimeout(() => {
       if (heroRef.current) heroRef.current.classList.add(styles.visible)
-    }, 2000)
+    }, 1000)
     return () => clearTimeout(timer)
   }, [])
 
@@ -40,7 +39,6 @@ export default function Home() {
           <p className={styles.details}>Details to follow with RSVP</p>
         </div>
       </main>
-      <ScrollIndicator />
     </>
   )
 }
