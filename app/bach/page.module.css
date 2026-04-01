@@ -1,0 +1,210 @@
+.main {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 1.5rem 3rem;
+}
+
+.content {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 3s ease-in-out, visibility 0s linear 0s;
+}
+
+.content.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Heading */
+
+.heading {
+  font-family: var(--font-lora);
+  font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Rules */
+
+.rule {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* Menu */
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.menuRow {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.menuLabel {
+  flex-shrink: 0;
+  width: 120px;
+  font-family: var(--font-newsreader);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  padding-top: 0.15em;
+}
+
+.menuValue {
+  font-family: var(--font-newsreader);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.menuValue p {
+  margin: 0;
+}
+
+.sub {
+  opacity: 0.6;
+  font-size: 0.9rem;
+}
+
+/* Form */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field label,
+.fieldset legend {
+  font-family: var(--font-newsreader);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.field input {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  padding: 0.75rem 0.85rem;
+  font-family: var(--font-newsreader);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.field input:focus {
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.fieldset {
+  border: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.fieldset legend {
+  margin-bottom: 0.4rem;
+}
+
+.radio {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  font-family: var(--font-newsreader);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.radio input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.radio span {
+  opacity: 0.6;
+  transition: opacity 0.3s;
+  padding: 0.3rem 0;
+}
+
+.radio input[type="radio"]:checked + span {
+  opacity: 1;
+}
+
+.radio:hover span {
+  opacity: 0.9;
+}
+
+.fadeIn {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.button {
+  margin-top: 0.5rem;
+  padding: 0.85rem 2rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  font-family: var(--font-lora);
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+  .menuRow {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .menuLabel {
+    width: auto;
+  }
+}
