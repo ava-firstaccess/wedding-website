@@ -1,3 +1,6 @@
+'use client'
+
+import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Nav from './components/Nav'
 import WelcomeOverlay from './components/WelcomeOverlay'
@@ -5,12 +8,22 @@ import ScrollIndicator from './components/ScrollIndicator'
 import styles from './page.module.css'
 
 export default function Home() {
+  const heroRef = useRef(null)
+
+  useEffect(() => {
+    // Fade in after welcome overlay starts fading (2s delay)
+    const timer = setTimeout(() => {
+      if (heroRef.current) heroRef.current.classList.add(styles.visible)
+    }, 2000)
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
     <>
       <WelcomeOverlay />
       <Nav />
       <main className={styles.main}>
-        <div className={styles.hero}>
+        <div ref={heroRef} className={styles.hero}>
           <div className={styles.imageWrap}>
             <Image
               src="/lion-lioness.jpg"

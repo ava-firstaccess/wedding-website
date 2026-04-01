@@ -12,6 +12,14 @@
   align-items: center;
   text-align: center;
   gap: 0.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 3s ease-in-out;
+}
+
+.hero.visible {
+  opacity: 1;
+  visibility: visible;
 }
 
 .imageWrap {
@@ -22,6 +30,7 @@
   width: min(80vw, 400px);
   height: auto;
   object-fit: contain;
+  filter: invert(1);
 }
 
 .title {
