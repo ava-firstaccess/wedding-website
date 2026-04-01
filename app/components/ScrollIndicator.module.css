@@ -1,11 +1,17 @@
 .indicator {
   position: fixed;
-  bottom: 2rem;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 50;
-  animation: bounce 2s ease infinite;
-  transition: opacity 0.4s;
+  z-index: 9999;
+  animation: bounce 2s infinite;
+  transition: opacity 0.45s;
+}
+
+.image {
+  width: 40px;
+  height: auto;
+  opacity: 0.7;
 }
 
 .hidden {

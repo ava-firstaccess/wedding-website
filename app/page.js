@@ -26,7 +26,7 @@ export default function Home() {
         <div ref={heroRef} className={styles.hero}>
           <div className={styles.imageWrap}>
             <Image
-              src="/lion-lioness.jpg"
+              src="/lion-lioness.png"
               alt="Lion and Lioness"
               width={500}
               height={500}
