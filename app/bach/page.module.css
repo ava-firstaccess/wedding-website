@@ -187,6 +187,15 @@
   }
 }
 
+.thanks {
+  font-family: var(--font-lora);
+  font-size: 1.2rem;
+  letter-spacing: 0.1em;
+  text-align: center;
+  opacity: 0.85;
+  padding: 2rem 0;
+}
+
 .button {
   margin-top: 0.5rem;
   padding: 0.85rem 2rem;

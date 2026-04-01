@@ -8,6 +8,28 @@ export default function Bach() {
   const contentRef = useRef(null)
   const [rsvp, setRsvp] = useState('')
   const [knowBy, setKnowBy] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const name = e.target.name.value.trim()
+    if (!name || !rsvp) return
+    if (rsvp === 'maybe' && !knowBy) return
+    setSubmitting(true)
+    try {
+      await fetch('/api/bach-rsvp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, rsvp, knowBy }),
+      })
+      setSubmitted(true)
+    } catch {
+      alert('Something went wrong. Try again.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -51,7 +73,10 @@ export default function Bach() {
 
           <hr className={styles.rule} />
 
-          <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+          {submitted ? (
+            <p className={styles.thanks}>We got you. See you there.</p>
+          ) : (
+          <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.field}>
               <label htmlFor="name">Name</label>
               <input id="name" name="name" type="text" required placeholder="Your name" />
@@ -90,8 +115,11 @@ export default function Bach() {
               </div>
             )}
 
-            <button type="submit" className={styles.button}>Send It</button>
+            <button type="submit" className={styles.button} disabled={submitting}>
+              {submitting ? '...' : 'Send It'}
+            </button>
           </form>
+          )}
         </div>
       </main>
     </>
