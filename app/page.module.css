@@ -24,13 +24,13 @@
 
 .imageWrap {
   margin-bottom: 1.5rem;
+  background: #000;
 }
 
 .image {
   width: min(80vw, 400px);
   height: auto;
   object-fit: contain;
-  filter: invert(1);
 }
 
 .title {
