@@ -1,14 +1,24 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import Nav from '../components/Nav'
 import styles from './page.module.css'
 
 export default function RSVP() {
+  const formRef = useRef(null)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (formRef.current) formRef.current.classList.add(styles.visible)
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
     <>
       <Nav />
       <main className={styles.main}>
-        <form className={styles.form}>
+        <form ref={formRef} className={styles.form}>
           <h1 className={styles.title}>RSVP</h1>
 
           <div className={styles.row}>
