@@ -1,21 +1,33 @@
+import Image from 'next/image'
+import Nav from './components/Nav'
+import WelcomeOverlay from './components/WelcomeOverlay'
+import ScrollIndicator from './components/ScrollIndicator'
+import styles from './page.module.css'
+
 export default function Home() {
   return (
-    <main style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #f5f0eb 0%, #e8ddd3 100%)',
-      textAlign: 'center',
-      padding: '2rem',
-    }}>
-      <h1 style={{ fontSize: '3.5rem', fontWeight: 300, letterSpacing: '0.15em', marginBottom: '1rem' }}>
-        ZACH & CIERA
-      </h1>
-      <p style={{ fontSize: '1.2rem', color: '#666', letterSpacing: '0.1em' }}>
-        Coming Soon
-      </p>
-    </main>
+    <>
+      <WelcomeOverlay />
+      <Nav />
+      <main className={styles.main}>
+        <div className={styles.hero}>
+          <div className={styles.imageWrap}>
+            <Image
+              src="/lion-lioness.jpg"
+              alt="Lion and Lioness"
+              width={500}
+              height={500}
+              priority
+              className={styles.image}
+            />
+          </div>
+          <h1 className={styles.title}>Zach & Ciera</h1>
+          <p className={styles.subtitle}>New Years Eve Reception</p>
+          <p className={styles.location}>Baltimore, MD</p>
+          <p className={styles.details}>Details to follow with RSVP</p>
+        </div>
+      </main>
+      <ScrollIndicator />
+    </>
   )
 }

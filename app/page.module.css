@@ -1,0 +1,56 @@
+.main {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 1.5rem 3rem;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.imageWrap {
+  margin-bottom: 1.5rem;
+}
+
+.image {
+  width: min(80vw, 400px);
+  height: auto;
+  object-fit: contain;
+}
+
+.title {
+  font-family: var(--font-lora);
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+}
+
+.subtitle {
+  font-family: var(--font-newsreader);
+  font-size: clamp(1rem, 3vw, 1.4rem);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-top: 0.5rem;
+}
+
+.location {
+  font-family: var(--font-newsreader);
+  font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+}
+
+.details {
+  font-family: var(--font-newsreader);
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  font-style: italic;
+  opacity: 0.5;
+  margin-top: 1.5rem;
+}

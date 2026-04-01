@@ -1,0 +1,14 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: #000;
+  animation: fadeOut 1.5s ease-in 2s forwards;
+  pointer-events: none;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
+}

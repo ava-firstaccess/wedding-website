@@ -5,6 +5,11 @@
 }
 
 body {
-  font-family: 'Georgia', serif;
-  color: #333;
+  background: #000;
+  color: #fff;
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
 }

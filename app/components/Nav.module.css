@@ -1,0 +1,25 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  padding: 1.25rem 1rem;
+  background: #000;
+  font-family: var(--font-newsreader);
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.nav a {
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.nav a:hover {
+  opacity: 1;
+}
