@@ -6,7 +6,7 @@ import Nav from '../components/Nav'
 import styles from './page.module.css'
 
 export default function Bach1() {
-  const [phase, setPhase] = useState('lions-in')  // lions-in → lions-out → form-in
+  const [phase, setPhase] = useState('overlay')  // overlay → lions-out → form-in
   const [rsvp, setRsvp] = useState('')
   const [knowBy, setKnowBy] = useState('')
   const [weekends, setWeekends] = useState([])
@@ -14,11 +14,14 @@ export default function Bach1() {
   const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
-    // Lions fade in over 2s, hold for 2s, then fade out
+    // Black overlay fades out (1.5s), revealing lions behind it
+    const revealTimer = setTimeout(() => setPhase('lions-in'), 100)
+    // Hold lions, then fade them out
     const fadeOutTimer = setTimeout(() => setPhase('lions-out'), 4000)
-    // After lions fade out (1.5s transition), show form
+    // After lions fade out, show form
     const formTimer = setTimeout(() => setPhase('form-in'), 5500)
     return () => {
+      clearTimeout(revealTimer)
       clearTimeout(fadeOutTimer)
       clearTimeout(formTimer)
     }
@@ -46,11 +49,15 @@ export default function Bach1() {
 
   return (
     <>
+      {/* Black overlay that fades away to reveal lions */}
+      {(phase === 'overlay' || phase === 'lions-in') && (
+        <div className={phase === 'overlay' ? styles.overlay : styles.overlayFading} />
+      )}
       <Nav />
       <main className={styles.main}>
         {/* Lion reveal */}
         <div className={`${styles.lionsWrap} ${
-          phase === 'lions-in' ? styles.lionsVisible :
+          (phase === 'overlay' || phase === 'lions-in') ? styles.lionsVisible :
           phase === 'lions-out' ? styles.lionsFading : styles.lionsGone
         }`}>
           <Image
