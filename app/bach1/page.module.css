@@ -280,15 +280,10 @@
 
 @media (max-width: 480px) {
   .main {
-    display: block;
     min-height: unset;
+    justify-content: flex-start;
     padding-top: 4.5rem;
     padding-bottom: 2rem;
-  }
-
-  .lionsWrap {
-    position: relative;
-    width: 100%;
   }
 
   .menuRow {
