@@ -13,7 +13,7 @@ export default function Home() {
     // Fade in after welcome overlay starts fading (2s delay)
     const timer = setTimeout(() => {
       if (heroRef.current) heroRef.current.classList.add(styles.visible)
-    }, 2000)
+    }, 800)
     return () => clearTimeout(timer)
   }, [])
 

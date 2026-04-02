@@ -8,7 +8,7 @@ export default function WelcomeOverlay() {
 
   useEffect(() => {
     // Remove from DOM after CSS animation completes (2s delay + 1.5s fade)
-    const timer = setTimeout(() => setMounted(false), 3600)
+    const timer = setTimeout(() => setMounted(false), 2100)
     return () => clearTimeout(timer)
   }, [])
 
