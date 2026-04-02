@@ -17,9 +17,9 @@ export default function Bach1() {
     // Black overlay fades out (1.5s), revealing lions behind it
     const revealTimer = setTimeout(() => setPhase('lions-in'), 100)
     // Hold lions, then fade them out
-    const fadeOutTimer = setTimeout(() => setPhase('lions-out'), 4000)
+    const fadeOutTimer = setTimeout(() => setPhase('lions-out'), 3100)
     // After lions fade out, show form
-    const formTimer = setTimeout(() => setPhase('form-in'), 5500)
+    const formTimer = setTimeout(() => setPhase('form-in'), 4600)
     return () => {
       clearTimeout(revealTimer)
       clearTimeout(fadeOutTimer)
