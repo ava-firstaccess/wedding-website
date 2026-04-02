@@ -8,8 +8,10 @@
 
 @media (max-width: 640px) {
   .main {
+    min-height: unset;
     justify-content: flex-start;
-    padding-top: 1rem;
+    align-items: center;
+    padding-top: 4.5rem;
     padding-bottom: 2rem;
   }
 }
