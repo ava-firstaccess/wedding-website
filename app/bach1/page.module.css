@@ -286,6 +286,13 @@
     padding-bottom: 2rem;
   }
 
+  .lionsWrap {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
   .menuRow {
     flex-direction: column;
     gap: 0.3rem;
