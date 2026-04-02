@@ -151,7 +151,8 @@
   cursor: pointer;
 }
 
-.radio input[type="radio"] {
+.radio input[type="radio"],
+.radio input[type="checkbox"] {
   position: absolute;
   opacity: 0;
   width: 0;
@@ -164,7 +165,8 @@
   padding: 0.3rem 0;
 }
 
-.radio input[type="radio"]:checked + span {
+.radio input[type="radio"]:checked + span,
+.radio input[type="checkbox"]:checked + span {
   opacity: 1;
 }
 

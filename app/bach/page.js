@@ -8,6 +8,7 @@ export default function Bach() {
   const contentRef = useRef(null)
   const [rsvp, setRsvp] = useState('')
   const [knowBy, setKnowBy] = useState('')
+  const [weekends, setWeekends] = useState([])
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
@@ -21,7 +22,7 @@ export default function Bach() {
       await fetch('/api/bach-rsvp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, rsvp, knowBy }),
+        body: JSON.stringify({ name, rsvp, knowBy, weekends: weekends.join(', ') }),
       })
       setSubmitted(true)
     } catch {
@@ -53,22 +54,20 @@ export default function Bach() {
             </div>
             <div className={styles.menuRow}>
               <span className={styles.menuLabel}>The Dates</span>
-              <span className={styles.menuValue}>3 to 4 nights — TBD based on headcount</span>
+              <span className={styles.menuValue}>Thursday – Sunday, October 2026 — see below for available weekends</span>
             </div>
             <div className={styles.menuRow}>
               <span className={styles.menuLabel}>The Cost</span>
               <div className={styles.menuValueStack}>
-                <p>$750 per person — villa included</p>
-                <p className={styles.sub}>Chef included for breakfast &amp; lunch — you cover groceries + 20%</p>
-                <p className={styles.sub}>Dinner available at the same rate</p>
-                <p className={styles.sub}>Near Tulum — groceries are cheap</p>
-                <p className={styles.sub}>Bar service — add-on, split among drinkers only</p>
+                <p>Approx $750 per person</p>
+                <p className={styles.sub}>Chef included for breakfast &amp; lunch — Cost: groceries + 20%</p>
+                <p className={styles.sub}>Bartender — cost of alcohol + 20% split among drinkers only</p>
                 <p className={styles.sub}>Flights — ~$500–600 round trip from Philly, DC, or LA</p>
               </div>
             </div>
             <div className={styles.menuRow}>
               <span className={styles.menuLabel}>Your Bed</span>
-              <span className={styles.menuValue}>Singles share a room. Couples get their own room.</span>
+              <span className={styles.menuValue}>Singles share a room, own bed.</span>
             </div>
           </div>
 
@@ -82,6 +81,32 @@ export default function Bach() {
               <label htmlFor="name">Name</label>
               <input id="name" name="name" type="text" required placeholder="Your name" />
             </div>
+
+            <fieldset className={styles.fieldset}>
+              <legend>Which weekends work for you? <span className={styles.sub}>(select all that apply)</span></legend>
+              {[
+                { value: 'Weekend 1', label: 'Weekend 1 — Thu Oct 1 – Sun Oct 4' },
+                { value: 'Weekend 2', label: 'Weekend 2 — Thu Oct 8 – Sun Oct 11' },
+                { value: 'Weekend 3', label: 'Weekend 3 — Thu Oct 15 – Sun Oct 18' },
+              ].map((opt) => (
+                <label key={opt.value} className={styles.radio}>
+                  <input
+                    type="checkbox"
+                    name="weekends"
+                    value={opt.value}
+                    checked={weekends.includes(opt.value)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setWeekends([...weekends, opt.value])
+                      } else {
+                        setWeekends(weekends.filter((w) => w !== opt.value))
+                      }
+                    }}
+                  />
+                  <span>{opt.label}</span>
+                </label>
+              ))}
+            </fieldset>
 
             <fieldset className={styles.fieldset}>
               <legend>Are you in?</legend>

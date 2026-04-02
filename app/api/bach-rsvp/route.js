@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 
 const SHEET_ID = '1ipw1XVw5s5avPbemguP1V7OgIrKdJTYf3OdwQEZXSGM'
 const TOKEN_URL = 'https://oauth2.googleapis.com/token'
-const SHEETS_URL = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Responses!A:D:append?valueInputOption=USER_ENTERED`
+const SHEETS_URL = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Responses!A:E:append?valueInputOption=USER_ENTERED`
 
 async function getAccessToken() {
   const res = await fetch(TOKEN_URL, {
@@ -21,7 +21,7 @@ async function getAccessToken() {
 
 export async function POST(request) {
   try {
-    const { name, rsvp, knowBy } = await request.json()
+    const { name, rsvp, knowBy, weekends } = await request.json()
 
     if (!name || !rsvp) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
@@ -37,7 +37,7 @@ export async function POST(request) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        values: [[timestamp, name, rsvp, knowBy || '']],
+        values: [[timestamp, name, rsvp, knowBy || '', weekends || '']],
       }),
     })
 
