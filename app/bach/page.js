@@ -44,7 +44,7 @@ export default function Bach() {
       <Nav />
       <main className={styles.main}>
         <div ref={contentRef} className={styles.content}>
-          <h1 className={styles.heading}>You Are Cordially Invited</h1>
+          <h1 className={styles.heading}>You're Invited.</h1>
           <hr className={styles.rule} />
 
           <div className={styles.menu}>
