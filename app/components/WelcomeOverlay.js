@@ -4,14 +4,15 @@ import { useEffect, useState } from 'react'
 import styles from './WelcomeOverlay.module.css'
 
 export default function WelcomeOverlay() {
-  const [visible, setVisible] = useState(true)
+  const [mounted, setMounted] = useState(true)
 
   useEffect(() => {
-    const timer = setTimeout(() => setVisible(false), 2000)
+    // Remove from DOM after CSS animation completes (2s delay + 1.5s fade)
+    const timer = setTimeout(() => setMounted(false), 3600)
     return () => clearTimeout(timer)
   }, [])
 
-  if (!visible) return null
+  if (!mounted) return null
 
   return <div className={styles.overlay} />
 }
