@@ -67,7 +67,7 @@ export default function Bach() {
             </div>
             <div className={styles.menuRow}>
               <span className={styles.menuLabel}>Your Bed</span>
-              <span className={styles.menuValue}>Singles share a room, own bed.</span>
+              <span className={styles.menuValue}>Singles share a room, own bed. Couples own rooms.</span>
             </div>
           </div>
 
