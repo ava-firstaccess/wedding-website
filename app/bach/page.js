@@ -59,7 +59,7 @@ export default function Bach() {
             <div className={styles.menuRow}>
               <span className={styles.menuLabel}>The Cost</span>
               <div className={styles.menuValueStack}>
-                <p>Approx $750 per person</p>
+                <p>Lodging: Approx $750 per person</p>
                 <p className={styles.sub}>Chef included for breakfast &amp; lunch — Cost: groceries + 20%</p>
                 <p className={styles.sub}>Bartender — cost of alcohol + 20% split among drinkers only</p>
                 <p className={styles.sub}>Flights — ~$500–600 round trip from Philly, DC, or LA</p>

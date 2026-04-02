@@ -6,6 +6,14 @@
   padding: 6rem 1.5rem 3rem;
 }
 
+@media (max-width: 640px) {
+  .main {
+    align-items: flex-start;
+    padding-top: 5rem;
+    padding-bottom: 2rem;
+  }
+}
+
 .hero {
   display: flex;
   flex-direction: column;
@@ -30,20 +38,6 @@
   width: min(80vw, 400px);
   height: auto;
   object-fit: contain;
-  animation: cheers 6s ease-in-out 2s forwards;
-  transform-origin: center bottom;
-}
-
-@keyframes cheers {
-  0%   { transform: translateY(0) rotate(0deg); }
-  /* pause, then raise glasses */
-  60%  { transform: translateY(0) rotate(0deg); }
-  72%  { transform: translateY(-12px) rotate(-2deg) scale(1.03); }
-  /* clink hold */
-  80%  { transform: translateY(-10px) rotate(-1deg) scale(1.03); }
-  /* sip — slight tilt and settle */
-  90%  { transform: translateY(-4px) rotate(1deg) scale(1.01); }
-  100% { transform: translateY(0) rotate(0deg) scale(1); }
 }
 
 .title {
