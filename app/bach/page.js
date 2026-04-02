@@ -82,31 +82,29 @@ export default function Bach() {
               <input id="name" name="name" type="text" required placeholder="Your name" />
             </div>
 
-            <fieldset className={styles.fieldset}>
-              <legend>Which weekends work for you? <span className={styles.sub}>(select all that apply)</span></legend>
+            <div className={styles.pillGroup}>
+              <span className={styles.pillGroupLabel}>Which weekends work for you? <span className={styles.sub}>(select all that apply)</span></span>
               {[
                 { value: 'Weekend 1', label: 'Weekend 1 — Thu Oct 1 – Sun Oct 4' },
                 { value: 'Weekend 2', label: 'Weekend 2 — Thu Oct 8 – Sun Oct 11' },
                 { value: 'Weekend 3', label: 'Weekend 3 — Thu Oct 15 – Sun Oct 18' },
               ].map((opt) => (
-                <label key={opt.value} className={styles.radio}>
-                  <input
-                    type="checkbox"
-                    name="weekends"
-                    value={opt.value}
-                    checked={weekends.includes(opt.value)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setWeekends([...weekends, opt.value])
-                      } else {
-                        setWeekends(weekends.filter((w) => w !== opt.value))
-                      }
-                    }}
-                  />
-                  <span>{opt.label}</span>
-                </label>
+                <button
+                  key={opt.value}
+                  type="button"
+                  className={`${styles.pill} ${weekends.includes(opt.value) ? styles.pillActive : ''}`}
+                  onClick={() => {
+                    if (weekends.includes(opt.value)) {
+                      setWeekends(weekends.filter((w) => w !== opt.value))
+                    } else {
+                      setWeekends([...weekends, opt.value])
+                    }
+                  }}
+                >
+                  {opt.label}
+                </button>
               ))}
-            </fieldset>
+            </div>
 
             <fieldset className={styles.fieldset}>
               <legend>Are you in?</legend>
