@@ -58,16 +58,17 @@ export default function Bach() {
             <div className={styles.menuRow}>
               <span className={styles.menuLabel}>The Cost</span>
               <div className={styles.menuValueStack}>
-                <p>$750 per person</p>
-                <p className={styles.sub}>Villa, your own bed, breakfast &amp; lunch — included</p>
-                <p className={styles.sub}>Dinner available — pay groceries + 20% chef fee<br />(near Tulum, so groceries are cheap)</p>
+                <p>$750 per person — villa included</p>
+                <p className={styles.sub}>Chef included for breakfast &amp; lunch — you cover groceries + 20%</p>
+                <p className={styles.sub}>Dinner available at the same rate</p>
+                <p className={styles.sub}>Near Tulum — groceries are cheap</p>
                 <p className={styles.sub}>Bar service — add-on, split among drinkers only</p>
                 <p className={styles.sub}>Flights — ~$500–600 round trip from Philly, DC, or LA</p>
               </div>
             </div>
             <div className={styles.menuRow}>
               <span className={styles.menuLabel}>Your Bed</span>
-              <span className={styles.menuValue}>Singles share a room, own bed.<br />Couples get their own room.</span>
+              <span className={styles.menuValue}>Singles share a room. Couples get their own room.</span>
             </div>
           </div>
 
