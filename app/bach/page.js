@@ -1,16 +1,31 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import Image from 'next/image'
 import Nav from '../components/Nav'
 import styles from './page.module.css'
 
 export default function Bach() {
-  const contentRef = useRef(null)
+  const [phase, setPhase] = useState('overlay')  // overlay → lions-out → form-in
   const [rsvp, setRsvp] = useState('')
   const [knowBy, setKnowBy] = useState('')
   const [weekends, setWeekends] = useState([])
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+
+  useEffect(() => {
+    // Black overlay fades out (1.5s), revealing lions behind it
+    const revealTimer = setTimeout(() => setPhase('lions-in'), 100)
+    // Hold lions, then fade them out
+    const fadeOutTimer = setTimeout(() => setPhase('lions-out'), 3100)
+    // After lions fade out, show form
+    const formTimer = setTimeout(() => setPhase('form-in'), 4600)
+    return () => {
+      clearTimeout(revealTimer)
+      clearTimeout(fadeOutTimer)
+      clearTimeout(formTimer)
+    }
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -32,18 +47,31 @@ export default function Bach() {
     }
   }
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (contentRef.current) contentRef.current.classList.add(styles.visible)
-    }, 300)
-    return () => clearTimeout(timer)
-  }, [])
-
   return (
     <>
+      {/* Black overlay that fades away to reveal lions */}
+      {(phase === 'overlay' || phase === 'lions-in') && (
+        <div className={phase === 'overlay' ? styles.overlay : styles.overlayFading} />
+      )}
       <Nav />
       <main className={styles.main}>
-        <div ref={contentRef} className={styles.content}>
+        {/* Lion reveal */}
+        <div className={`${styles.lionsWrap} ${
+          (phase === 'overlay' || phase === 'lions-in') ? styles.lionsVisible :
+          phase === 'lions-out' ? styles.lionsFading : styles.lionsGone
+        }`}>
+          <Image
+            src="/lion-lioness.png"
+            alt="Lion and Lioness"
+            width={500}
+            height={500}
+            priority
+            className={styles.lionsImage}
+          />
+        </div>
+
+        {/* Form reveal */}
+        <div className={`${styles.content} ${phase === 'form-in' ? styles.visible : ''}`}>
           <h1 className={styles.heading}>You're Invited.</h1>
           <hr className={styles.rule} />
 
