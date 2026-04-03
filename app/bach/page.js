@@ -95,7 +95,7 @@ export default function Bach() {
                 <p className={styles.sub}>Included: chef for breakfast &amp; lunch, bartender (can be prorated for non-drinkers), housekeeping, airport shuttle (if arriving at similar times)</p>
                 <p className={styles.subsectionLabel}>Additional costs:</p>
                 <p className={styles.sub}>Groceries, alcohol, optional activities — boat day, golf, night out</p>
-                <p className={styles.sub}>Flights — ~$400–500 round trip</p>
+                <p className={styles.sub}>Flights — $400–500 round trip</p>
               </div>
             </div>
             <div className={styles.menuRow}>
