@@ -82,20 +82,21 @@ export default function Bach() {
             </div>
             <div className={styles.menuRow}>
               <span className={styles.menuLabel}>The Dates</span>
-              <span className={styles.menuValue}>Thursday – Sunday, October 2026 — see below for available weekends</span>
+              <span className={styles.menuValue}>Thursday – Sunday, 3 weekend options below — we're gathering availability to find what works best for the group</span>
             </div>
             <div className={styles.menuRow}>
               <span className={styles.menuLabel}>The Cost</span>
               <div className={styles.menuValueStack}>
                 <p>Lodging: Approx $450–550 per person</p>
-                <p className={styles.sub}>Chef included for breakfast &amp; lunch — Cost: groceries + 20%</p>
-                <p className={styles.sub}>Bartender — cost of alcohol + 20% split among drinkers only</p>
+                <p className={styles.sub}>Included: chef for breakfast &amp; lunch, bartender (can be prorated for non-drinkers), housekeeping, airport shuttle (if arriving at similar times)</p>
+                <p className={styles.subsectionLabel}>Additional costs:</p>
+                <p className={styles.sub}>Groceries, alcohol, optional activities — boat day, golf, night out</p>
                 <p className={styles.sub}>Flights — ~$400–500 round trip</p>
               </div>
             </div>
             <div className={styles.menuRow}>
-              <span className={styles.menuLabel}>Your Bed</span>
-              <span className={styles.menuValue}>Singles share a room, own bed. Couples own rooms.</span>
+              <span className={styles.menuLabel}>Your Room</span>
+              <span className={styles.menuValue}>Singles will have their own bed in a shared 2-person room. Couples will have their own room.</span>
             </div>
           </div>
 
@@ -113,9 +114,9 @@ export default function Bach() {
             <div className={styles.pillGroup}>
               <span className={styles.pillGroupLabel}>Which weekends work for you? <span className={styles.sub}>(select all that apply)</span></span>
               {[
-                { value: 'Weekend 1', label: 'Weekend 1 — Thu Oct 1 – Sun Oct 4' },
-                { value: 'Weekend 2', label: 'Weekend 2 — Thu Oct 8 – Sun Oct 11' },
-                { value: 'Weekend 3', label: 'Weekend 3 — Thu Oct 15 – Sun Oct 18' },
+                { value: 'Weekend 1', label: 'Weekend 1 — Thu Oct 8 – Mon Oct 12' },
+                { value: 'Weekend 2', label: 'Weekend 2 — Thu Oct 15 – Sun Oct 18' },
+                { value: 'Weekend 3', label: 'Weekend 3 — Thu Nov 12 – Sun Nov 15' },
               ].map((opt) => (
                 <button
                   key={opt.value}
