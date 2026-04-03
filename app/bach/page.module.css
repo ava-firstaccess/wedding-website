@@ -322,7 +322,7 @@
 }
 
 .pill.pillActive {
-  border-color: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.95);
   color: #fff;
   background: rgba(255, 255, 255, 0.08);
 }

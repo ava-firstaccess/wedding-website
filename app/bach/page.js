@@ -116,10 +116,10 @@ export default function Bach() {
               <input id="name" name="name" type="text" required placeholder="Your name" />
             </div>
 
-            <div className={styles.pillGroup}>
+            <div className={styles.pillGroup} style={{marginTop: '0.75rem'}}>
               <span className={styles.pillGroupLabel}>Which weekends work for you?<br /><span className={styles.sub}>(select all that apply)</span></span>
               {[
-                { value: 'Weekend 1', label: 'Weekend 1 — Thu Oct 8 – Mon Oct 12' },
+                { value: 'Weekend 1', label: 'Weekend 1 — Thu Oct 8 – Sun Oct 11' },
                 { value: 'Weekend 2', label: 'Weekend 2 — Thu Oct 15 – Sun Oct 18' },
                 { value: 'Weekend 3', label: 'Weekend 3 — Thu Nov 12 – Sun Nov 15' },
               ].map((opt) => (
@@ -144,7 +144,7 @@ export default function Bach() {
               <legend>Are you in?</legend>
               {[
                 { value: 'in', label: 'I Am In' },
-                { value: 'cost', label: 'Depends on Final Cost' },
+                { value: 'cost', label: 'I Am In Depending on Final Cost' },
                 { value: 'maybe', label: 'I Am a Maybe' },
                 { value: 'out', label: 'I Am Out — see you on NYE' },
               ].map((opt) => (
