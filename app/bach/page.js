@@ -144,7 +144,8 @@ export default function Bach() {
               <legend>Are you in?</legend>
               {[
                 { value: 'in', label: 'I Am In' },
-                { value: 'maybe', label: 'Depends on Final Cost' },
+                { value: 'cost', label: 'Depends on Final Cost' },
+                { value: 'maybe', label: 'I Am a Maybe' },
                 { value: 'out', label: 'I Am Out — see you on NYE' },
               ].map((opt) => (
                 <label key={opt.value} className={styles.radio}>
