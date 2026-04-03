@@ -82,7 +82,10 @@ export default function Bach() {
             </div>
             <div className={styles.menuRow}>
               <span className={styles.menuLabel}>The Dates</span>
-              <span className={styles.menuValue}>Thursday – Sunday, 3 weekend options below — we're gathering availability to find what works best for the group</span>
+              <div className={styles.menuValueStack}>
+                <p>Thursday – Sunday</p>
+                <p className={styles.sub}>3 weekend options below — we're gathering availability to find what works best for the group</p>
+              </div>
             </div>
             <div className={styles.menuRow}>
               <span className={styles.menuLabel}>The Cost</span>
