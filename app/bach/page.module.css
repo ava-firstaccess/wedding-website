@@ -321,10 +321,21 @@
   color: rgba(255, 255, 255, 0.8);
 }
 
+.pillBorderless {
+  border: none;
+  padding-left: 0;
+}
+
+.pillBorderless:hover {
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+}
+
 .pill.pillActive {
   border: 2px solid rgba(255, 255, 255, 0.95);
   color: #fff;
   background: rgba(255, 255, 255, 0.08);
+  padding-left: 1rem;
 }
 
 /* ── Mobile ── */

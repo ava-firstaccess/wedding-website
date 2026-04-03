@@ -151,7 +151,7 @@ export default function Bach() {
                 <button
                   key={opt.value}
                   type="button"
-                  className={`${styles.pill} ${rsvp === opt.value ? styles.pillActive : ''}`}
+                  className={`${styles.pill} ${styles.pillBorderless} ${rsvp === opt.value ? styles.pillActive : ''}`}
                   onClick={() => setRsvp(opt.value)}
                 >
                   {opt.label}
