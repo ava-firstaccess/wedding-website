@@ -160,6 +160,19 @@ export default function Bach() {
               <input type="hidden" name="rsvp" value={rsvp} />
             </div>
 
+            {rsvp === 'maybe' && (
+              <div className={`${styles.field} ${styles.fadeIn}`}>
+                <label htmlFor="knowBy">I will know by</label>
+                <input
+                  id="knowBy"
+                  name="knowBy"
+                  type="date"
+                  required
+                  value={knowBy}
+                  onChange={(e) => setKnowBy(e.target.value)}
+                />
+              </div>
+            )}
 
             <button type="submit" className={styles.button} disabled={submitting}>
               {submitting ? '...' : 'Send It'}
