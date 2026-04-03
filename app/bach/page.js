@@ -138,19 +138,21 @@ export default function Bach() {
 
             <fieldset className={styles.fieldset}>
               <legend>Are you in?</legend>
-              {['in', 'out', 'maybe'].map((val) => (
-                <label key={val} className={styles.radio}>
+              {[
+                { value: 'in', label: 'I Am In' },
+                { value: 'maybe', label: 'Depends on Final Cost' },
+                { value: 'out', label: 'I Am Out — see you on NYE' },
+              ].map((opt) => (
+                <label key={opt.value} className={styles.radio}>
                   <input
                     type="radio"
                     name="rsvp"
-                    value={val}
+                    value={opt.value}
                     required
-                    checked={rsvp === val}
-                    onChange={() => setRsvp(val)}
+                    checked={rsvp === opt.value}
+                    onChange={() => setRsvp(opt.value)}
                   />
-                  <span>
-                    {val === 'in' ? 'I Am In' : val === 'out' ? 'I Am Out' : 'I Am a Maybe'}
-                  </span>
+                  <span>{opt.label}</span>
                 </label>
               ))}
             </fieldset>
