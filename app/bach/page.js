@@ -87,7 +87,8 @@ export default function Bach() {
             <div className={styles.menuRow}>
               <span className={styles.menuLabel}>The Cost</span>
               <div className={styles.menuValueStack}>
-                <p>Lodging: Approx $450–550 per person</p>
+                <p>Lodging: Approx $450–$750 per person</p>
+                <p className={styles.sub}>The leading contender based on anticipated headcount is at $550.</p>
                 <p className={styles.sub}>Included: chef for breakfast &amp; lunch, bartender (can be prorated for non-drinkers), housekeeping, airport shuttle (if arriving at similar times)</p>
                 <p className={styles.subsectionLabel}>Additional costs:</p>
                 <p className={styles.sub}>Groceries, alcohol, optional activities — boat day, golf, night out</p>
@@ -112,7 +113,7 @@ export default function Bach() {
             </div>
 
             <div className={styles.pillGroup}>
-              <span className={styles.pillGroupLabel}>Which weekends work for you? <span className={styles.sub}>(select all that apply)</span></span>
+              <span className={styles.pillGroupLabel}>Which weekends work for you?<br /><span className={styles.sub}>(select all that apply)</span></span>
               {[
                 { value: 'Weekend 1', label: 'Weekend 1 — Thu Oct 8 – Mon Oct 12' },
                 { value: 'Weekend 2', label: 'Weekend 2 — Thu Oct 15 – Sun Oct 18' },
