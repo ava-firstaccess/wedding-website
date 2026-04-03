@@ -91,7 +91,7 @@ export default function Bach() {
               <span className={styles.menuLabel}>The Cost</span>
               <div className={styles.menuValueStack}>
                 <p>Flights: $400–500 round trip</p>
-                <p>Lodging: Approx $450–$750 per person</p>
+                <p>Lodging: $450–$750 per person</p>
                 <p className={styles.sub}>Leading contender is $550, subject to headcount.</p>
                 <p className={styles.subsectionLabel}>Included:</p>
                 <p className={styles.sub}>Chef for breakfast &amp; lunch, bartender (prorated for non-drinkers), housekeeping, airport shuttle (if arriving at similar times)</p>
@@ -140,41 +140,26 @@ export default function Bach() {
               ))}
             </div>
 
-            <fieldset className={styles.fieldset}>
-              <legend>Are you in?</legend>
+            <div className={styles.pillGroup}>
+              <span className={styles.pillGroupLabel}>Are you in?</span>
               {[
                 { value: 'in', label: 'I Am In' },
                 { value: 'cost', label: 'I Am In Depending on Final Cost' },
                 { value: 'maybe', label: 'I Am a Maybe' },
                 { value: 'out', label: 'I Am Out — see you on NYE' },
               ].map((opt) => (
-                <label key={opt.value} className={styles.radio}>
-                  <input
-                    type="radio"
-                    name="rsvp"
-                    value={opt.value}
-                    required
-                    checked={rsvp === opt.value}
-                    onChange={() => setRsvp(opt.value)}
-                  />
-                  <span>{opt.label}</span>
-                </label>
+                <button
+                  key={opt.value}
+                  type="button"
+                  className={`${styles.pill} ${rsvp === opt.value ? styles.pillActive : ''}`}
+                  onClick={() => setRsvp(opt.value)}
+                >
+                  {opt.label}
+                </button>
               ))}
-            </fieldset>
+              <input type="hidden" name="rsvp" value={rsvp} />
+            </div>
 
-            {rsvp === 'maybe' && (
-              <div className={`${styles.field} ${styles.fadeIn}`}>
-                <label htmlFor="knowBy">I will know by</label>
-                <input
-                  id="knowBy"
-                  name="knowBy"
-                  type="date"
-                  required
-                  value={knowBy}
-                  onChange={(e) => setKnowBy(e.target.value)}
-                />
-              </div>
-            )}
 
             <button type="submit" className={styles.button} disabled={submitting}>
               {submitting ? '...' : 'Send It'}
