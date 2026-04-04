@@ -146,7 +146,7 @@ export default function Bach() {
                 { value: 'in', label: 'I Am In' },
                 { value: 'cost', label: 'I Am In Depending on Final Cost' },
                 { value: 'maybe', label: 'I Am a Maybe' },
-                { value: 'out', label: 'I Am Out — see you on NYE' },
+                { value: 'out', label: 'I Am Out — See You on NYE' },
               ].map((opt) => (
                 <button
                   key={opt.value}
