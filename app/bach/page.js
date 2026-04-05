@@ -119,9 +119,9 @@ export default function Bach() {
             <div className={styles.pillGroup} style={{marginTop: '0.75rem'}}>
               <span className={styles.pillGroupLabel}>Which weekends work for you?<br /><span className={styles.sub}>(select all that apply)</span></span>
               {[
-                { value: 'Weekend 1', label: 'Weekend 1 — Thu Oct 8 – Sun Oct 11' },
-                { value: 'Weekend 2', label: 'Weekend 2 — Thu Oct 15 – Sun Oct 18' },
-                { value: 'Weekend 3', label: 'Weekend 3 — Thu Nov 12 – Sun Nov 15' },
+                { value: 'Weekend 1', label: 'Weekend 1 — Thu Nov 5 – Sun Nov 8' },
+                { value: 'Weekend 2', label: 'Weekend 2 — Thu Nov 12 – Sun Nov 15' },
+                { value: 'Weekend 3', label: 'Weekend 3 — Thu Nov 19 – Sun Nov 22' },
               ].map((opt) => (
                 <button
                   key={opt.value}
