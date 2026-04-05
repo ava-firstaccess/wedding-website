@@ -91,7 +91,7 @@ export default function Bach() {
               <span className={styles.menuLabel}>The Cost</span>
               <div className={styles.menuValueStack}>
                 <p>Flights: $400–500 round trip</p>
-                <p>Lodging: $450–$750 per person</p>
+                <p>Beachfront Lodging: $450–$650 per person</p>
                 <p className={styles.sub}>Leading contender is $550, subject to headcount.</p>
                 <p className={styles.subsectionLabel}>Included:</p>
                 <p className={styles.sub}>Chef for breakfast &amp; lunch, bartender (prorated for non-drinkers), housekeeping, airport shuttle (if arriving at similar times)</p>
