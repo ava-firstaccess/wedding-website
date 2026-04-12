@@ -29,7 +29,7 @@ async function getAccessToken() {
 }
 
 async function getSheetRows(token) {
-  const res = await fetch(`${SHEETS_BASE}/${encodeURIComponent('Sheet1!A1:AC500')}`, {
+  const res = await fetch(`${SHEETS_BASE}/${encodeURIComponent('Master Guest List!A1:AC500')}`, {
     headers: { Authorization: `Bearer ${token}` },
   })
   const data = await res.json()
@@ -229,7 +229,7 @@ export async function POST(request) {
       String(submissionCount),
     ]
 
-    const range = `Sheet1!P${rowNumber}:AC${rowNumber}`
+    const range = `Master Guest List!P${rowNumber}:AC${rowNumber}`
     const updateRes = await fetch(`${SHEETS_BASE}/${encodeURIComponent(range)}?valueInputOption=USER_ENTERED`, {
       method: 'PUT',
       headers: {
@@ -274,7 +274,7 @@ export async function POST(request) {
       submittedAt,
     })
 
-    const emailStatusRange = `Sheet1!AA${rowNumber}:AB${rowNumber}`
+    const emailStatusRange = `Master Guest List!AA${rowNumber}:AB${rowNumber}`
     await fetch(`${SHEETS_BASE}/${encodeURIComponent(emailStatusRange)}?valueInputOption=USER_ENTERED`, {
       method: 'PUT',
       headers: {
