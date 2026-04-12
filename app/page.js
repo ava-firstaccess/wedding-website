@@ -36,7 +36,6 @@ export default function Home() {
           <h1 className={styles.title}>Zach & Ciera</h1>
           <p className={styles.subtitle}>New Years Eve Reception</p>
           <p className={styles.location}>Baltimore, MD</p>
-          <p className={styles.details}> with RSVP</p>
         </div>
       </main>
     </>
