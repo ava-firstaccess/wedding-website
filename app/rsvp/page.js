@@ -11,54 +11,46 @@ const MOCK_GUESTS = {
     firstName: 'Ava',
     secondGuest: 'Zach',
     inviteType: 'full',
-    plusOneAllowed: false,
+    partySize: 2,
   },
   PARTY1: {
     code: 'PARTY1',
     firstName: 'Zach',
     secondGuest: '',
     inviteType: 'party',
-    plusOneAllowed: false,
+    partySize: 1,
   },
 }
 
 function InvitePage({ guest, onBack }) {
   const [attendance, setAttendance] = useState('')
+  const [bringingPlusOne, setBringingPlusOne] = useState('')
+  const [plusOneName, setPlusOneName] = useState('')
   const [dietary, setDietary] = useState('')
   const [notes, setNotes] = useState('')
   const [submitted, setSubmitted] = useState(false)
 
   const isFullInvite = guest.inviteType === 'full'
+  const canBringPlusOne = guest.partySize === 1
   const greeting = guest.secondGuest
     ? `Hi ${guest.firstName} & ${guest.secondGuest}`
     : `Hi ${guest.firstName}`
 
   const attendanceOptions = isFullInvite
     ? [
-        { value: 'both', label: 'We’ll Be There For Both' },
-        { value: 'party-only', label: 'We’ll Join For New Year’s Eve Only' },
-        { value: 'decline', label: 'Sadly, We Can’t Make It' },
+        { value: 'both', label: 'Both' },
+        { value: 'party-only', label: 'Party Only' },
+        { value: 'decline', label: 'Can’t Make It' },
       ]
     : [
-        { value: 'party', label: 'I’ll Be There' },
-        { value: 'decline', label: 'Sadly, I Can’t Make It' },
-      ]
-
-  const details = isFullInvite
-    ? [
-        ['The Invitation', 'Before dinner celebration + New Year’s Eve party'],
-        ['Your Evening', 'An intimate dinner, then a beautiful long night into midnight'],
-        ['Your RSVP', 'Tell us if you’re joining both or just the party'],
-      ]
-    : [
-        ['The Invitation', 'New Year’s Eve party'],
-        ['Your Evening', 'Drinks, music, and midnight with us'],
-        ['Your RSVP', 'Let us know if we get to celebrate together'],
+        { value: 'party', label: 'Yes' },
+        { value: 'decline', label: 'Can’t Make It' },
       ]
 
   const handleSubmit = (e) => {
     e.preventDefault()
     if (!attendance) return
+    if (canBringPlusOne && attendance !== 'decline' && bringingPlusOne === 'yes' && !plusOneName.trim()) return
     setSubmitted(true)
   }
 
@@ -66,55 +58,83 @@ function InvitePage({ guest, onBack }) {
     <>
       <div className={styles.pageHeader}>
         <p className={styles.greeting}>{greeting}</p>
-        <h1 className={styles.heading}>You’re Invited.</h1>
-        <p className={styles.subheading}>
-          {isFullInvite ? 'Before Dinner + New Year’s Eve Party' : 'New Year’s Eve Party'}
-        </p>
-      </div>
-
-      <hr className={styles.rule} />
-
-      <div className={styles.menu}>
-        {details.map(([label, value]) => (
-          <div className={styles.menuRow} key={label}>
-            <span className={styles.menuLabel}>{label}</span>
-            <span className={styles.menuValue}>{value}</span>
-          </div>
-        ))}
+        <h1 className={styles.heading}>{isFullInvite ? 'Dinner + Party' : 'Party'}</h1>
       </div>
 
       <hr className={styles.rule} />
 
       {submitted ? (
         <div className={styles.thanksWrap}>
-          <p className={styles.thanks}>Perfect. We’ve got you.</p>
-          <p className={styles.sub}>This RSVP flow is mocked for now, real response saving comes next.</p>
+          <p className={styles.thanks}>Got it.</p>
         </div>
       ) : (
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.pillGroup}>
-            <span className={styles.pillGroupLabel}>Will you join us?</span>
+            <span className={styles.pillGroupLabel}>RSVP</span>
             {attendanceOptions.map((opt) => (
               <button
                 key={opt.value}
                 type="button"
                 className={`${styles.pill} ${styles.pillBorderless} ${attendance === opt.value ? styles.pillActive : ''}`}
-                onClick={() => setAttendance(opt.value)}
+                onClick={() => {
+                  setAttendance(opt.value)
+                  if (opt.value === 'decline') {
+                    setBringingPlusOne('')
+                    setPlusOneName('')
+                  }
+                }}
               >
                 {opt.label}
               </button>
             ))}
           </div>
 
+          {canBringPlusOne && attendance && attendance !== 'decline' ? (
+            <div className={`${styles.pillGroup} ${styles.fadeIn}`}>
+              <span className={styles.pillGroupLabel}>Plus One</span>
+              {[
+                { value: 'yes', label: 'Yes' },
+                { value: 'no', label: 'No' },
+              ].map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  className={`${styles.pill} ${styles.pillBorderless} ${bringingPlusOne === opt.value ? styles.pillActive : ''}`}
+                  onClick={() => {
+                    setBringingPlusOne(opt.value)
+                    if (opt.value === 'no') setPlusOneName('')
+                  }}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          ) : null}
+
+          {canBringPlusOne && bringingPlusOne === 'yes' ? (
+            <div className={`${styles.field} ${styles.fadeIn}`}>
+              <label htmlFor="plusOneName">Plus One Name</label>
+              <input
+                id="plusOneName"
+                name="plusOneName"
+                type="text"
+                value={plusOneName}
+                onChange={(e) => setPlusOneName(e.target.value)}
+                placeholder="Name"
+                required
+              />
+            </div>
+          ) : null}
+
           <div className={styles.field}>
-            <label htmlFor="dietary">Dietary Restrictions</label>
+            <label htmlFor="dietary">Dietary</label>
             <input
               id="dietary"
               name="dietary"
               type="text"
               value={dietary}
               onChange={(e) => setDietary(e.target.value)}
-              placeholder="Anything we should know?"
+              placeholder="Optional"
             />
           </div>
 
@@ -123,16 +143,16 @@ function InvitePage({ guest, onBack }) {
             <textarea
               id="notes"
               name="notes"
-              rows={4}
+              rows={3}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="A note, song request, or anything else"
+              placeholder="Optional"
             />
           </div>
 
           <div className={styles.buttonRow}>
             <button type="button" className={styles.secondaryButton} onClick={onBack}>Back</button>
-            <button type="submit" className={styles.button}>Send It</button>
+            <button type="submit" className={styles.button}>Submit</button>
           </div>
         </form>
       )}
@@ -165,7 +185,7 @@ export default function RSVP() {
 
     const match = MOCK_GUESTS[normalized]
     if (!match) {
-      setCodeError('That code didn’t match our guest list. Try again.')
+      setCodeError('Code not found.')
       setGuest(null)
       return
     }
@@ -207,32 +227,19 @@ export default function RSVP() {
         <div ref={formRef} className={`${styles.content} ${phase === 'form-in' ? styles.visible : ''}`}>
           {!guest ? (
             <>
-              <h1 className={styles.heading}>RSVP</h1>
-              <hr className={styles.rule} />
-
-              <div className={styles.menu}>
-                <div className={styles.menuRow}>
-                  <span className={styles.menuLabel}>The Evening</span>
-                  <span className={styles.menuValue}>Enter your invitation code to begin.</span>
-                </div>
-                <div className={styles.menuRow}>
-                  <span className={styles.menuLabel}>The Flow</span>
-                  <span className={styles.menuValue}>Your code opens the correct RSVP page for your invitation.</span>
-                </div>
-              </div>
-
+              <h1 className={styles.heading}>Enter Code To Party</h1>
               <hr className={styles.rule} />
 
               <form className={styles.form} onSubmit={handleCodeSubmit}>
                 <div className={styles.field}>
-                  <label htmlFor="inviteCode">Invitation Code</label>
+                  <label htmlFor="inviteCode">Code</label>
                   <input
                     id="inviteCode"
                     name="inviteCode"
                     type="text"
                     value={codeInput}
                     onChange={(e) => setCodeInput(e.target.value.toUpperCase())}
-                    placeholder="Enter your code"
+                    placeholder="Code"
                     autoCapitalize="characters"
                     autoCorrect="off"
                     spellCheck="false"
