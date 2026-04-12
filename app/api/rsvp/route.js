@@ -133,6 +133,37 @@ async function sendSummaryEmail(token, payload) {
   return data
 }
 
+async function appendSubmissionLog(token, payload) {
+  const range = 'Submission Logs!A:M'
+  const values = [[
+    payload.submittedAt,
+    payload.code,
+    payload.firstName,
+    payload.secondGuest || '',
+    payload.inviteType,
+    payload.response,
+    payload.attendanceMode || '',
+    payload.singleAttendeeName || '',
+    payload.guestCount,
+    payload.partyGuestName || '',
+    payload.dinnerGuestName || '',
+    payload.dietary || '',
+    payload.notes || '',
+  ]]
+
+  const res = await fetch(`${SHEETS_BASE}/${encodeURIComponent(range)}:append?valueInputOption=USER_ENTERED`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ values }),
+  })
+
+  const data = await res.json()
+  if (!res.ok) throw new Error(`Submission log append failed: ${JSON.stringify(data)}`)
+}
+
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url)
@@ -209,6 +240,22 @@ export async function POST(request) {
     })
     const updateData = await updateRes.json()
     if (!updateRes.ok) throw new Error(`Sheets update failed: ${JSON.stringify(updateData)}`)
+
+    await appendSubmissionLog(token, {
+      submittedAt,
+      code,
+      firstName: guest.firstName,
+      secondGuest: guest.secondGuest,
+      inviteType: guest.inviteType,
+      response,
+      attendanceMode,
+      singleAttendeeName,
+      guestCount,
+      partyGuestName,
+      dinnerGuestName,
+      dietary,
+      notes,
+    })
 
     await sendSummaryEmail(token, {
       changed,
