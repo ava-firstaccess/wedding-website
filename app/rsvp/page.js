@@ -301,8 +301,8 @@ export default function RSVP() {
 
   useEffect(() => {
     const revealTimer = setTimeout(() => setPhase('lions-in'), 100)
-    const fadeOutTimer = setTimeout(() => setPhase('lions-out'), 2226)
-    const formTimer = setTimeout(() => setPhase('form-in'), 3501)
+    const fadeOutTimer = setTimeout(() => setPhase('lions-out'), 1800)
+    const formTimer = setTimeout(() => setPhase('form-in'), 3075)
     return () => {
       clearTimeout(revealTimer)
       clearTimeout(fadeOutTimer)
@@ -380,8 +380,7 @@ export default function RSVP() {
               <hr className={styles.rule} />
 
               <form className={styles.form} onSubmit={handleCodeSubmit}>
-                <div className={styles.field}>
-                  <label htmlFor="inviteCode">Code</label>
+                <div className={`${styles.field} ${styles.codeField}`}>
                   <input
                     id="inviteCode"
                     name="inviteCode"

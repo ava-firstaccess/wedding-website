@@ -111,6 +111,15 @@
   opacity: 0.62;
 }
 
+.codeField {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.pageHeader {
+  margin-bottom: 2rem;
+}
+
 .rule {
   border: none;
   border-top: 1px solid rgba(255, 255, 255, 0.25);
@@ -358,6 +367,15 @@
 }
 
 @media (max-width: 480px) {
+  .codeField {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .pageHeader {
+    margin-bottom: 1.5rem;
+  }
+
   .main {
     min-height: unset;
     justify-content: flex-start;

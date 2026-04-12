@@ -80,8 +80,7 @@ export default function Logistics() {
               <h1 className={styles.heading}>Logistics</h1>
               <hr className={styles.rule} />
               <form className={styles.form} onSubmit={handleSubmit}>
-                <div className={styles.field}>
-                  <label htmlFor="code">Code</label>
+                <div className={`${styles.field} ${styles.codeField}`}>
                   <input id="code" value={code} onChange={(e) => setCode(e.target.value.toUpperCase())} placeholder="Code" required />
                 </div>
                 {error ? <p className={styles.error}>{error}</p> : null}
