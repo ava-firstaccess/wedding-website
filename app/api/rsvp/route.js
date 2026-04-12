@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-const SHEET_ID = '1FStY53PMaiF6NvLpeXKzeXNqpeJSpJ_ZOmUqgaf4AEA'
+const SHEET_ID = '1LMz16UaRvtpu--8Lm3vx_Q0410XH6C389acQnJ62Cmo'
 const TOKEN_URL = 'https://oauth2.googleapis.com/token'
 const SHEETS_BASE = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values`
 const GMAIL_SEND_URL = 'https://gmail.googleapis.com/gmail/v1/users/me/messages/send'
@@ -29,7 +29,7 @@ async function getAccessToken() {
 }
 
 async function getSheetRows(token) {
-  const res = await fetch(`${SHEETS_BASE}/${encodeURIComponent('Invite List!A1:AH500')}`, {
+  const res = await fetch(`${SHEETS_BASE}/${encodeURIComponent('Sheet1!A1:X500')}`, {
     headers: { Authorization: `Bearer ${token}` },
   })
   const data = await res.json()
@@ -50,29 +50,19 @@ function buildGuest(headers, row) {
     return index >= 0 ? row[index] || '' : ''
   }
 
-  const firstName = get('Guest 1 First Name')
-  const secondGuest = get('Guest 2 First Name')
-  const quantity = Number(get('Quantity') || '1')
-  const inviteType = normalizeInviteType(get('Invite Type'))
+  const firstName = get('guest_1_first_name')
+  const secondGuest = get('guest_2_first_name')
+  const quantity = Number(get('quantity') || '1')
+  const inviteType = normalizeInviteType(get('invite_type'))
 
   return {
-    code: get('Invite Code'),
+    code: get('invite_code'),
     firstName,
     secondGuest,
     inviteType,
     partySize: Number.isFinite(quantity) && quantity > 0 ? quantity : 1,
     rowNumber: null,
   }
-}
-
-function toA1Column(n) {
-  let result = ''
-  while (n > 0) {
-    const rem = (n - 1) % 26
-    result = String.fromCharCode(65 + rem) + result
-    n = Math.floor((n - 1) / 26)
-  }
-  return result
 }
 
 async function sendSummaryEmail(token, payload) {
@@ -174,7 +164,7 @@ export async function POST(request) {
       '',
     ]
 
-    const range = `Invite List!Y${rowNumber}:AH${rowNumber}`
+    const range = `Sheet1!O${rowNumber}:X${rowNumber}`
     const updateRes = await fetch(`${SHEETS_BASE}/${encodeURIComponent(range)}?valueInputOption=USER_ENTERED`, {
       method: 'PUT',
       headers: {
@@ -199,7 +189,7 @@ export async function POST(request) {
       submittedAt,
     })
 
-    const emailStatusRange = `Invite List!AG${rowNumber}:AH${rowNumber}`
+    const emailStatusRange = `Sheet1!W${rowNumber}:X${rowNumber}`
     await fetch(`${SHEETS_BASE}/${encodeURIComponent(emailStatusRange)}?valueInputOption=USER_ENTERED`, {
       method: 'PUT',
       headers: {
