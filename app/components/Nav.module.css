@@ -1,25 +1,23 @@
 .nav {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 300;
   display: flex;
-  justify-content: center;
-  gap: 2.5rem;
-  padding: 1.25rem 1rem;
-  background: #000;
+  gap: 1.25rem;
+}
+
+.nav a {
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
   font-family: var(--font-newsreader);
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-.nav a {
-  opacity: 0.8;
-  transition: opacity 0.3s;
-}
-
-.nav a:hover {
-  opacity: 1;
+.nav a:hover,
+.nav a.active {
+  color: #fff;
 }

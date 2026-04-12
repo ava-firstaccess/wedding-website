@@ -29,7 +29,7 @@ async function getAccessToken() {
 }
 
 async function getSheetRows(token) {
-  const res = await fetch(`${SHEETS_BASE}/${encodeURIComponent('Sheet1!A1:AB500')}`, {
+  const res = await fetch(`${SHEETS_BASE}/${encodeURIComponent('Sheet1!A1:AC500')}`, {
     headers: { Authorization: `Bearer ${token}` },
   })
   const data = await res.json()
@@ -56,6 +56,8 @@ function buildGuest(headers, row) {
   const dinnerQuantity = Number(get('dinner_quantity') || '0')
   const partySize = Number(get('party_size') || '1')
   const inviteType = normalizeInviteType(get('invite_type'))
+  const submissionCount = Number(get('rsvp_submission_count') || '0')
+  const submitted = get('rsvp_status') === 'submitted'
 
   return {
     code: get('invite_code'),
@@ -65,13 +67,29 @@ function buildGuest(headers, row) {
     partySize: Number.isFinite(partySize) && partySize > 0 ? partySize : 1,
     dinnerQuantity: Number.isFinite(dinnerQuantity) ? dinnerQuantity : 0,
     partyQuantity: Number.isFinite(partyQuantity) ? partyQuantity : 1,
+    submissionCount,
+    submitted,
+    existingRsvp: submitted ? {
+      response: get('rsvp_response'),
+      attendanceMode: get('rsvp_attendance_mode'),
+      singleAttendeeName: get('rsvp_single_attendee_name'),
+      guestCount: get('rsvp_guest_count'),
+      partyGuestName: get('rsvp_party_guest_name'),
+      dinnerGuestName: get('rsvp_dinner_guest_name'),
+      dietary: get('rsvp_dietary'),
+      notes: get('rsvp_notes'),
+      submittedAt: get('rsvp_submitted_at'),
+    } : null,
     rowNumber: null,
   }
 }
 
 async function sendSummaryEmail(token, payload) {
+  const changed = payload.changed
   const subject = `Wedding RSVP: ${payload.firstName}${payload.secondGuest ? ` & ${payload.secondGuest}` : ''}`
   const body = [
+    changed ? `${payload.firstName} changed their RSVP.` : `${payload.firstName} submitted their RSVP.`,
+    '',
     `Code: ${payload.code}`,
     `Invite type: ${payload.inviteType}`,
     `Primary guest: ${payload.firstName}`,
@@ -151,6 +169,8 @@ export async function POST(request) {
     const rowNumber = matchIndex + 2
     const guest = buildGuest(headers, dataRows[matchIndex])
     const submittedAt = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })
+    const changed = guest.submitted
+    const submissionCount = (guest.submissionCount || 0) + 1
 
     const response = payload.response || ''
     const attendanceMode = payload.attendanceMode || ''
@@ -175,9 +195,10 @@ export async function POST(request) {
       submittedAt,
       'pending',
       '',
+      String(submissionCount),
     ]
 
-    const range = `Sheet1!P${rowNumber}:AB${rowNumber}`
+    const range = `Sheet1!P${rowNumber}:AC${rowNumber}`
     const updateRes = await fetch(`${SHEETS_BASE}/${encodeURIComponent(range)}?valueInputOption=USER_ENTERED`, {
       method: 'PUT',
       headers: {
@@ -190,6 +211,7 @@ export async function POST(request) {
     if (!updateRes.ok) throw new Error(`Sheets update failed: ${JSON.stringify(updateData)}`)
 
     await sendSummaryEmail(token, {
+      changed,
       code,
       inviteType: guest.inviteType,
       firstName: guest.firstName,
