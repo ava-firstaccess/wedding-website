@@ -21,7 +21,7 @@
   z-index: 200;
   background: #000;
   pointer-events: none;
-  animation: overlayFadeOut 1.5s ease-in forwards;
+  animation: overlayFadeOut 1.275s ease-in forwards;
 }
 
 @keyframes overlayFadeOut {
@@ -36,7 +36,7 @@
   align-items: center;
   justify-content: center;
   opacity: 1;
-  transition: opacity 1.5s ease-in-out;
+  transition: opacity 1.275s ease-in-out;
 }
 
 .lionsWrap.lionsVisible {
@@ -68,7 +68,7 @@
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 2.5s ease-in-out;
+  transition: opacity 2.125s ease-in-out;
 }
 
 .content.visible {
@@ -229,7 +229,7 @@
 }
 
 .fadeIn {
-  animation: fadeIn 0.6s ease-in-out;
+  animation: fadeIn 0.51s ease-in-out;
 }
 
 @keyframes fadeIn {
@@ -275,6 +275,21 @@
 .secondaryButton:hover {
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.8);
+}
+
+.transitionPane {
+  transition: opacity 0.38s ease-in-out, transform 0.38s ease-in-out;
+}
+
+.transitionIn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.transitionOut {
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
 }
 
 .summaryCard {

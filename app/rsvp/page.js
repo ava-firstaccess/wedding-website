@@ -291,6 +291,7 @@ function InvitePage({ guest, code, onBack }) {
 
 export default function RSVP() {
   const [phase, setPhase] = useState('overlay')
+  const [view, setView] = useState('gate')
   const [codeInput, setCodeInput] = useState('')
   const [guest, setGuest] = useState(null)
   const [activeCode, setActiveCode] = useState('')
@@ -324,9 +325,13 @@ export default function RSVP() {
         return
       }
       const data = await res.json()
-      setGuest(data.guest)
-      setActiveCode(normalized)
-      setCodeError('')
+      setView('fading')
+      setTimeout(() => {
+        setGuest(data.guest)
+        setActiveCode(normalized)
+        setCodeError('')
+        setView('invite')
+      }, 380)
     } catch {
       setCodeError('Code not found.')
       setGuest(null)
@@ -337,6 +342,7 @@ export default function RSVP() {
   }
 
   const resetGate = () => {
+    setView('gate')
     setGuest(null)
     setActiveCode('')
     setCodeInput('')
@@ -368,8 +374,8 @@ export default function RSVP() {
         </div>
 
         <div ref={formRef} className={`${styles.content} ${phase === 'form-in' ? styles.visible : ''}`}>
-          {!guest ? (
-            <>
+          {view !== 'invite' ? (
+            <div className={`${styles.transitionPane} ${view === 'fading' ? styles.transitionOut : styles.transitionIn}`}>
               <h1 className={styles.heading}>Enter Code To Party</h1>
               <hr className={styles.rule} />
 
@@ -394,9 +400,11 @@ export default function RSVP() {
 
                 <button type="submit" className={styles.button} disabled={loading}>{loading ? '...' : 'Enter'}</button>
               </form>
-            </>
+            </div>
           ) : (
-            <InvitePage guest={guest} code={activeCode} onBack={resetGate} />
+            <div className={`${styles.transitionPane} ${styles.transitionIn}`}>
+              <InvitePage guest={guest} code={activeCode} onBack={resetGate} />
+            </div>
           )}
         </div>
       </main>
