@@ -135,6 +135,7 @@ function InvitePage({ guest, code, onBack }) {
         </div>
       </div>
 
+      <div className={styles.sectionSpacer} />
       <hr className={styles.rule} />
 
       {submitted ? null : existing && !editing ? (
