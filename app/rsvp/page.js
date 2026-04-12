@@ -301,8 +301,8 @@ export default function RSVP() {
 
   useEffect(() => {
     const revealTimer = setTimeout(() => setPhase('lions-in'), 100)
-    const fadeOutTimer = setTimeout(() => setPhase('lions-out'), 3100)
-    const formTimer = setTimeout(() => setPhase('form-in'), 4600)
+    const fadeOutTimer = setTimeout(() => setPhase('lions-out'), 2635)
+    const formTimer = setTimeout(() => setPhase('form-in'), 3910)
     return () => {
       clearTimeout(revealTimer)
       clearTimeout(fadeOutTimer)
@@ -325,11 +325,11 @@ export default function RSVP() {
         return
       }
       const data = await res.json()
+      setGuest(data.guest)
+      setActiveCode(normalized)
+      setCodeError('')
       setView('fading')
       setTimeout(() => {
-        setGuest(data.guest)
-        setActiveCode(normalized)
-        setCodeError('')
         setView('invite')
       }, 380)
     } catch {
@@ -375,7 +375,7 @@ export default function RSVP() {
 
         <div ref={formRef} className={`${styles.content} ${phase === 'form-in' ? styles.visible : ''}`}>
           {view !== 'invite' ? (
-            <div className={`${styles.transitionPane} ${view === 'fading' ? styles.transitionOut : styles.transitionIn}`}>
+            <div className={`${styles.transitionPane} ${view === 'fading' ? styles.transitionOut : styles.transitionIn} ${view === 'invite' ? styles.hiddenPane : ''}`}>
               <h1 className={styles.heading}>Enter Code To Party</h1>
               <hr className={styles.rule} />
 
@@ -402,7 +402,7 @@ export default function RSVP() {
               </form>
             </div>
           ) : (
-            <div className={`${styles.transitionPane} ${styles.transitionIn}`}>
+            <div className={`${styles.transitionPane} ${styles.transitionIn} ${styles.absolutePane}`}>
               <InvitePage guest={guest} code={activeCode} onBack={resetGate} />
             </div>
           )}
