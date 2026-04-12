@@ -22,6 +22,17 @@ const MOCK_GUESTS = {
   },
 }
 
+const EVENT_DETAILS = {
+  venueName: 'Hotel Revival',
+  spaceName: 'Topside',
+  address: '101 W Monument St, Baltimore, MD 21201',
+  dinnerTime: '7:00 PM',
+  partyArrival: '9:00 PM',
+  dressCode: 'New Year’s Eve formal',
+  rsvpDeadline: 'July 31',
+  hotelBlockUrl: 'Hotel block link coming soon',
+}
+
 function InvitePage({ guest, onBack }) {
   const [attendance, setAttendance] = useState('')
   const [bringingPlusOne, setBringingPlusOne] = useState('')
@@ -61,6 +72,47 @@ function InvitePage({ guest, onBack }) {
       <div className={styles.pageHeader}>
         <p className={styles.greeting}>{greeting}</p>
         <h1 className={styles.heading}>{isFullInvite ? 'Dinner + Party' : 'Party'}</h1>
+      </div>
+
+      <hr className={styles.rule} />
+
+      <div className={styles.menu}>
+        <div className={styles.menuRow}>
+          <span className={styles.menuLabel}>Venue</span>
+          <span className={styles.menuValue}>{EVENT_DETAILS.spaceName}, {EVENT_DETAILS.venueName}</span>
+        </div>
+        <div className={styles.menuRow}>
+          <span className={styles.menuLabel}>Address</span>
+          <span className={styles.menuValue}>{EVENT_DETAILS.address}</span>
+        </div>
+        <div className={styles.menuRow}>
+          <span className={styles.menuLabel}>Arrival</span>
+          <span className={styles.menuValue}>{isFullInvite ? `Dinner guests arrive at ${EVENT_DETAILS.dinnerTime}. Party guests arrive at ${EVENT_DETAILS.partyArrival}.` : `Please arrive at ${EVENT_DETAILS.partyArrival}.`}</span>
+        </div>
+        <div className={styles.menuRow}>
+          <span className={styles.menuLabel}>Dress</span>
+          <span className={styles.menuValue}>{EVENT_DETAILS.dressCode}</span>
+        </div>
+        <div className={styles.menuRow}>
+          <span className={styles.menuLabel}>Food</span>
+          <span className={styles.menuValue}>{isFullInvite ? 'Dinner, cocktail apps, and midnight pizza.' : 'Cocktail apps, midnight pizza, and an open bar. Please eat dinner before arriving.'}</span>
+        </div>
+        <div className={styles.menuRow}>
+          <span className={styles.menuLabel}>Parking</span>
+          <span className={styles.menuValue}>Parking and valet available at Hotel Revival.</span>
+        </div>
+        <div className={styles.menuRow}>
+          <span className={styles.menuLabel}>Hotel</span>
+          <span className={styles.menuValue}>{EVENT_DETAILS.hotelBlockUrl}</span>
+        </div>
+        <div className={styles.menuRow}>
+          <span className={styles.menuLabel}>RSVP By</span>
+          <span className={styles.menuValue}>{EVENT_DETAILS.rsvpDeadline}</span>
+        </div>
+        <div className={styles.menuRow}>
+          <span className={styles.menuLabel}>Notes</span>
+          <span className={styles.menuValue}>Adults only. Indoor event.</span>
+        </div>
       </div>
 
       <hr className={styles.rule} />
@@ -128,20 +180,22 @@ function InvitePage({ guest, onBack }) {
             </div>
           ) : null}
 
-          <div className={styles.field}>
-            <label htmlFor="dietary">Dietary</label>
-            <input
-              id="dietary"
-              name="dietary"
-              type="text"
-              value={dietary}
-              onChange={(e) => setDietary(e.target.value)}
-              placeholder="Optional"
-            />
-          </div>
+          {isFullInvite ? (
+            <div className={styles.field}>
+              <label htmlFor="dietary">Dietary</label>
+              <input
+                id="dietary"
+                name="dietary"
+                type="text"
+                value={dietary}
+                onChange={(e) => setDietary(e.target.value)}
+                placeholder="Optional"
+              />
+            </div>
+          ) : null}
 
           <div className={styles.field}>
-            <label htmlFor="notes">Notes</label>
+            <label htmlFor="notes">Notes / Song Request</label>
             <textarea
               id="notes"
               name="notes"
