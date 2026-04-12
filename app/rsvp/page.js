@@ -301,8 +301,8 @@ export default function RSVP() {
 
   useEffect(() => {
     const revealTimer = setTimeout(() => setPhase('lions-in'), 100)
-    const fadeOutTimer = setTimeout(() => setPhase('lions-out'), 1800)
-    const formTimer = setTimeout(() => setPhase('form-in'), 3075)
+    const fadeOutTimer = setTimeout(() => setPhase('lions-out'), 3100)
+    const formTimer = setTimeout(() => setPhase('form-in'), 4600)
     return () => {
       clearTimeout(revealTimer)
       clearTimeout(fadeOutTimer)
