@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-const SHEET_ID = '1LMz16UaRvtpu--8Lm3vx_Q0410XH6C389acQnJ62Cmo'
+const SHEET_ID = '1Hh27Pp9Dr8qmMMG-zZGXsuSv7Zz1P7qmfsv_1gwE6bE'
 const TOKEN_URL = 'https://oauth2.googleapis.com/token'
 const SHEETS_BASE = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values`
 const GMAIL_SEND_URL = 'https://gmail.googleapis.com/gmail/v1/users/me/messages/send'
@@ -52,7 +52,7 @@ function buildGuest(headers, row) {
 
   const firstName = get('guest_1_first_name')
   const secondGuest = get('guest_2_first_name')
-  const quantity = Number(get('quantity') || '1')
+  const partyQuantity = Number(get('party_quantity') || '1')
   const inviteType = normalizeInviteType(get('invite_type'))
 
   return {
@@ -60,7 +60,7 @@ function buildGuest(headers, row) {
     firstName,
     secondGuest,
     inviteType,
-    partySize: Number.isFinite(quantity) && quantity > 0 ? quantity : 1,
+    partySize: Number.isFinite(partyQuantity) && partyQuantity > 0 ? partyQuantity : 1,
     rowNumber: null,
   }
 }
