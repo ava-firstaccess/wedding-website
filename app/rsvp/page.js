@@ -145,8 +145,8 @@ function InvitePage({ guest, code, onBack }) {
           <div className={styles.summaryCard}>
             <p className={styles.pillGroupLabel}>We already have your RSVP</p>
             <div className={styles.summaryList}>
-              <p><strong>Response:</strong> {existing.response || '—'}</p>
-              {existing.attendanceMode ? <p><strong>Who’s coming:</strong> {existing.attendanceMode === 'both' ? 'Both' : 'One person'}</p> : null}
+              <p><strong>Response:</strong> {existing.response === 'both' ? 'Yes' : existing.response === 'party-only' ? 'Party Only' : existing.response === 'party' ? 'Yes' : existing.response === 'decline' ? 'Can’t Make It' : (existing.response || '—')}</p>
+              {existing.attendanceMode ? <p><strong>Who’s coming:</strong> {existing.attendanceMode === 'both' ? 'We both can make it' : existing.attendanceMode === 'one' ? 'Only one of us can make it' : existing.attendanceMode}</p> : null}
               {existing.singleAttendeeName ? <p><strong>Single attendee:</strong> {existing.singleAttendeeName}</p> : null}
               {existing.partyGuestName ? <p><strong>Party guest:</strong> {existing.partyGuestName}</p> : null}
               {existing.dinnerGuestName ? <p><strong>Dinner guest:</strong> {existing.dinnerGuestName}</p> : null}

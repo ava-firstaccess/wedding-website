@@ -205,12 +205,17 @@ export async function POST(request) {
 
     const response = payload.response || ''
     const attendanceMode = payload.attendanceMode || ''
-    const singleAttendeeName = payload.singleAttendeeName || ''
+    const singleAttendeeName = attendanceMode === 'one' ? (payload.singleAttendeeName || '') : ''
     const guestCount = payload.guestCount || ''
     const partyGuestName = payload.partyGuestName || ''
     const dinnerGuestName = payload.dinnerGuestName || ''
     const dietary = payload.dietary || ''
     const notes = payload.notes || ''
+
+    const finalPartyGuestName = response === 'decline' ? '' : partyGuestName
+    const finalDinnerGuestName = response === 'decline' ? '' : dinnerGuestName
+    const finalDietary = response === 'decline' ? '' : dietary
+    const finalNotes = notes
 
     const updates = [
       'submitted',
@@ -218,11 +223,11 @@ export async function POST(request) {
       attendanceMode,
       singleAttendeeName,
       guestCount,
-      partyGuestName,
-      dinnerGuestName,
-      dietary,
-      notes,
-      notes,
+      finalPartyGuestName,
+      finalDinnerGuestName,
+      finalDietary,
+      finalNotes,
+      finalNotes,
       submittedAt,
       'pending',
       '',
@@ -251,10 +256,10 @@ export async function POST(request) {
       attendanceMode,
       singleAttendeeName,
       guestCount,
-      partyGuestName,
-      dinnerGuestName,
-      dietary,
-      notes,
+      partyGuestName: finalPartyGuestName,
+      dinnerGuestName: finalDinnerGuestName,
+      dietary: finalDietary,
+      notes: finalNotes,
     })
 
     await sendSummaryEmail(token, {
@@ -267,10 +272,10 @@ export async function POST(request) {
       attendanceMode,
       singleAttendeeName,
       guestCount,
-      partyGuestName,
-      dinnerGuestName,
-      dietary,
-      notes,
+      partyGuestName: finalPartyGuestName,
+      dinnerGuestName: finalDinnerGuestName,
+      dietary: finalDietary,
+      notes: finalNotes,
       submittedAt,
     })
 
