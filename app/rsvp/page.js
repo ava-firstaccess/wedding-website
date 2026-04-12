@@ -17,19 +17,22 @@ const EVENT_DETAILS = {
 }
 
 function InvitePage({ guest, code, onBack }) {
-  const [attendance, setAttendance] = useState('')
-  const [attendanceMode, setAttendanceMode] = useState('')
-  const [singleAttendeeName, setSingleAttendeeName] = useState('')
-  const [partyGuestName, setPartyGuestName] = useState('')
-  const [dinnerGuestName, setDinnerGuestName] = useState('')
-  const [dietary, setDietary] = useState('')
-  const [notes, setNotes] = useState('')
+  const existing = guest.existingRsvp || null
+  const [editing, setEditing] = useState(!existing)
+  const [attendance, setAttendance] = useState(existing?.response || '')
+  const [attendanceMode, setAttendanceMode] = useState(existing?.attendanceMode || '')
+  const [singleAttendeeName, setSingleAttendeeName] = useState(existing?.singleAttendeeName || '')
+  const [partyGuestName, setPartyGuestName] = useState(existing?.partyGuestName || '')
+  const [dinnerGuestName, setDinnerGuestName] = useState(existing?.dinnerGuestName || '')
+  const [dietary, setDietary] = useState(existing?.dietary || '')
+  const [notes, setNotes] = useState(existing?.notes || '')
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
   const isFullInvite = guest.inviteType === 'full'
   const partySize = Number(guest.partySize || 1)
   const dinnerQuantity = Number(guest.dinnerQuantity || 0)
+  const partyQuantity = Number(guest.partyQuantity || 1)
   const guest1 = guest.firstName
   const guest2 = guest.secondGuest
   const hasNamedSecondGuest = Boolean(guest2)
@@ -54,7 +57,7 @@ function InvitePage({ guest, code, onBack }) {
   const needsPartyPairChoice = partySize === 2
   const canBringPartyGuestAfterDinner = isFullInvite && dinnerQuantity === 1 && partySize === 1
   const canBringGuestToDinnerAndParty = isFullInvite && dinnerQuantity === 2 && partySize === 1
-  const canBringPartyOnlyGuest = !isFullInvite && partySize === 1 && Number(guest.partyQuantity || 1) === 2
+  const canBringPartyOnlyGuest = !isFullInvite && partySize === 1 && partyQuantity === 2
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -136,6 +139,26 @@ function InvitePage({ guest, code, onBack }) {
       {submitted ? (
         <div className={styles.thanksWrap}>
           <p className={styles.thanks}>Got it.</p>
+        </div>
+      ) : existing && !editing ? (
+        <div className={styles.form}>
+          <div className={styles.summaryCard}>
+            <p className={styles.pillGroupLabel}>We already have your RSVP</p>
+            <div className={styles.summaryList}>
+              <p><strong>Response:</strong> {existing.response || '—'}</p>
+              {existing.attendanceMode ? <p><strong>Who’s coming:</strong> {existing.attendanceMode === 'both' ? 'Both' : 'One person'}</p> : null}
+              {existing.singleAttendeeName ? <p><strong>Single attendee:</strong> {existing.singleAttendeeName}</p> : null}
+              {existing.partyGuestName ? <p><strong>Party guest:</strong> {existing.partyGuestName}</p> : null}
+              {existing.dinnerGuestName ? <p><strong>Dinner guest:</strong> {existing.dinnerGuestName}</p> : null}
+              {existing.dietary ? <p><strong>Dietary:</strong> {existing.dietary}</p> : null}
+              {existing.notes ? <p><strong>Notes:</strong> {existing.notes}</p> : null}
+              {existing.submittedAt ? <p><strong>Submitted:</strong> {existing.submittedAt}</p> : null}
+            </div>
+          </div>
+          <div className={styles.buttonRow}>
+            <button type="button" className={styles.secondaryButton} onClick={onBack}>Back</button>
+            <button type="button" className={styles.button} onClick={() => setEditing(true)}>Change My RSVP</button>
+          </div>
         </div>
       ) : (
         <form className={styles.form} onSubmit={handleSubmit}>
@@ -257,8 +280,8 @@ function InvitePage({ guest, code, onBack }) {
           </div>
 
           <div className={styles.buttonRow}>
-            <button type="button" className={styles.secondaryButton} onClick={onBack}>Back</button>
-            <button type="submit" className={styles.button} disabled={submitting}>{submitting ? '...' : 'Submit'}</button>
+            <button type="button" className={styles.secondaryButton} onClick={existing ? () => setEditing(false) : onBack}>{existing ? 'Cancel' : 'Back'}</button>
+            <button type="submit" className={styles.button} disabled={submitting}>{submitting ? '...' : existing ? 'Update RSVP' : 'Submit'}</button>
           </div>
         </form>
       )}
