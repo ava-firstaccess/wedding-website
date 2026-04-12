@@ -34,7 +34,9 @@ function InvitePage({ guest, onBack }) {
   const canBringPlusOne = guest.partySize === 1
   const greeting = guest.secondGuest
     ? `Hi ${guest.firstName} & ${guest.secondGuest}`
-    : `Hi ${guest.firstName}`
+    : canBringPlusOne
+      ? `Hi ${guest.firstName} & Guest`
+      : `Hi ${guest.firstName}`
 
   const attendanceOptions = isFullInvite
     ? [
@@ -113,14 +115,14 @@ function InvitePage({ guest, onBack }) {
 
           {canBringPlusOne && bringingPlusOne === 'yes' ? (
             <div className={`${styles.field} ${styles.fadeIn}`}>
-              <label htmlFor="plusOneName">Plus One Name</label>
+              <label htmlFor="plusOneName">Guest Name</label>
               <input
                 id="plusOneName"
                 name="plusOneName"
                 type="text"
                 value={plusOneName}
                 onChange={(e) => setPlusOneName(e.target.value)}
-                placeholder="Name"
+                placeholder="Guest name"
                 required
               />
             </div>
