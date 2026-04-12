@@ -89,7 +89,9 @@ export default function Logistics() {
             </div>
           ) : (
             <div className={`${styles.transitionPane} ${styles.transitionIn} ${styles.absolutePane}`}>
-              <h1 className={styles.heading}>{isFullInvite ? 'Dinner + Party Logistics' : 'Party Logistics'}</h1>
+              <div className={styles.pageHeader}>
+                <h1 className={styles.heading}>{isFullInvite ? 'Dinner + Party Logistics' : 'Party Logistics'}</h1>
+              </div>
               <hr className={styles.rule} />
               <div className={styles.menu}>
                 <div className={styles.menuRow}><span className={styles.menuLabel}>Venue</span><span className={styles.menuValue}>Topside, Hotel Revival</span></div>
