@@ -22,7 +22,9 @@ function InvitePage({ guest, code, onBack }) {
   const [attendance, setAttendance] = useState(existing?.response || '')
   const [attendanceMode, setAttendanceMode] = useState(existing?.attendanceMode || '')
   const [singleAttendeeName, setSingleAttendeeName] = useState(existing?.singleAttendeeName || '')
+  const [partyGuestComing, setPartyGuestComing] = useState(existing?.partyGuestName ? 'yes' : '')
   const [partyGuestName, setPartyGuestName] = useState(existing?.partyGuestName || '')
+  const [dinnerGuestComing, setDinnerGuestComing] = useState(existing?.dinnerGuestName ? 'yes' : '')
   const [dinnerGuestName, setDinnerGuestName] = useState(existing?.dinnerGuestName || '')
   const [dietary, setDietary] = useState(existing?.dietary || '')
   const [notes, setNotes] = useState(existing?.notes || '')
@@ -64,9 +66,8 @@ function InvitePage({ guest, code, onBack }) {
     if (!attendance) return
     if (needsPartyPairChoice && attendance !== 'decline' && !attendanceMode) return
     if (attendanceMode === 'one' && !singleAttendeeName) return
-    if (canBringPartyGuestAfterDinner && attendance !== 'decline' && !partyGuestName.trim()) return
-    if (canBringGuestToDinnerAndParty && attendance !== 'decline' && !dinnerGuestName.trim()) return
-    if (canBringPartyOnlyGuest && attendance !== 'decline' && !partyGuestName.trim()) return
+    if ((canBringPartyGuestAfterDinner || canBringPartyOnlyGuest) && attendance !== 'decline' && partyGuestComing === 'yes' && !partyGuestName.trim()) return
+    if (canBringGuestToDinnerAndParty && attendance !== 'decline' && dinnerGuestComing === 'yes' && !dinnerGuestName.trim()) return
 
     const guestCount =
       attendance === 'decline'
@@ -75,7 +76,7 @@ function InvitePage({ guest, code, onBack }) {
           ? 2
           : attendanceMode === 'one'
             ? 1
-            : canBringPartyGuestAfterDinner || canBringGuestToDinnerAndParty || canBringPartyOnlyGuest
+            : ((canBringPartyGuestAfterDinner || canBringPartyOnlyGuest) && partyGuestComing === 'yes') || (canBringGuestToDinnerAndParty && dinnerGuestComing === 'yes')
               ? 2
               : partySize
 
@@ -218,34 +219,74 @@ function InvitePage({ guest, code, onBack }) {
           ) : null}
 
           {(canBringPartyGuestAfterDinner || canBringPartyOnlyGuest) && attendance && attendance !== 'decline' ? (
-            <div className={`${styles.field} ${styles.fadeIn}`}>
-              <label htmlFor="partyGuestName">Party Guest Name</label>
-              <p className={styles.helper}>{canBringPartyGuestAfterDinner ? 'You’re also invited to bring a guest to meet you at the party after dinner at 9 PM.' : 'You’re invited to bring a guest to the party. Add their name here.'}</p>
-              <input
-                id="partyGuestName"
-                name="partyGuestName"
-                type="text"
-                value={partyGuestName}
-                onChange={(e) => setPartyGuestName(e.target.value)}
-                placeholder="Guest name"
-                required
-              />
+            <div className={`${styles.pillGroup} ${styles.fadeIn}`}>
+              <span className={styles.pillGroupLabel}>{canBringPartyGuestAfterDinner ? 'You’re invited to bring a guest to the party at 9 PM' : 'You’re invited to bring a guest to the party'}</span>
+              {[
+                { value: 'yes', label: 'Yes' },
+                { value: 'no', label: 'No' },
+              ].map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  className={`${styles.pill} ${styles.pillBorderless} ${partyGuestComing === opt.value ? styles.pillActive : ''}`}
+                  onClick={() => {
+                    setPartyGuestComing(opt.value)
+                    if (opt.value === 'no') setPartyGuestName('')
+                  }}
+                >
+                  {opt.label}
+                </button>
+              ))}
+              {partyGuestComing === 'yes' ? (
+                <div className={styles.field}>
+                  <label htmlFor="partyGuestName">Guest Name</label>
+                  <input
+                    id="partyGuestName"
+                    name="partyGuestName"
+                    type="text"
+                    value={partyGuestName}
+                    onChange={(e) => setPartyGuestName(e.target.value)}
+                    placeholder="Guest name"
+                    required
+                  />
+                </div>
+              ) : null}
             </div>
           ) : null}
 
           {canBringGuestToDinnerAndParty && attendance && attendance !== 'decline' ? (
-            <div className={`${styles.field} ${styles.fadeIn}`}>
-              <label htmlFor="dinnerGuestName">Guest Name</label>
-              <p className={styles.helper}>Your guest is invited to join you for both dinner and the party.</p>
-              <input
-                id="dinnerGuestName"
-                name="dinnerGuestName"
-                type="text"
-                value={dinnerGuestName}
-                onChange={(e) => setDinnerGuestName(e.target.value)}
-                placeholder="Guest name"
-                required
-              />
+            <div className={`${styles.pillGroup} ${styles.fadeIn}`}>
+              <span className={styles.pillGroupLabel}>You’re invited to bring a guest to dinner and the party</span>
+              {[
+                { value: 'yes', label: 'Yes' },
+                { value: 'no', label: 'No' },
+              ].map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  className={`${styles.pill} ${styles.pillBorderless} ${dinnerGuestComing === opt.value ? styles.pillActive : ''}`}
+                  onClick={() => {
+                    setDinnerGuestComing(opt.value)
+                    if (opt.value === 'no') setDinnerGuestName('')
+                  }}
+                >
+                  {opt.label}
+                </button>
+              ))}
+              {dinnerGuestComing === 'yes' ? (
+                <div className={styles.field}>
+                  <label htmlFor="dinnerGuestName">Guest Name</label>
+                  <input
+                    id="dinnerGuestName"
+                    name="dinnerGuestName"
+                    type="text"
+                    value={dinnerGuestName}
+                    onChange={(e) => setDinnerGuestName(e.target.value)}
+                    placeholder="Guest name"
+                    required
+                  />
+                </div>
+              ) : null}
             </div>
           ) : null}
 
