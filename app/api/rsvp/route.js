@@ -29,7 +29,7 @@ async function getAccessToken() {
 }
 
 async function getSheetRows(token) {
-  const res = await fetch(`${SHEETS_BASE}/${encodeURIComponent('Sheet1!A1:X500')}`, {
+  const res = await fetch(`${SHEETS_BASE}/${encodeURIComponent('Sheet1!A1:AB500')}`, {
     headers: { Authorization: `Bearer ${token}` },
   })
   const data = await res.json()
@@ -53,6 +53,8 @@ function buildGuest(headers, row) {
   const firstName = get('guest_1_first_name')
   const secondGuest = get('guest_2_first_name')
   const partyQuantity = Number(get('party_quantity') || '1')
+  const dinnerQuantity = Number(get('dinner_quantity') || '0')
+  const partySize = Number(get('party_size') || '1')
   const inviteType = normalizeInviteType(get('invite_type'))
 
   return {
@@ -60,7 +62,9 @@ function buildGuest(headers, row) {
     firstName,
     secondGuest,
     inviteType,
-    partySize: Number.isFinite(partyQuantity) && partyQuantity > 0 ? partyQuantity : 1,
+    partySize: Number.isFinite(partySize) && partySize > 0 ? partySize : 1,
+    dinnerQuantity: Number.isFinite(dinnerQuantity) ? dinnerQuantity : 0,
+    partyQuantity: Number.isFinite(partyQuantity) ? partyQuantity : 1,
     rowNumber: null,
   }
 }
@@ -73,8 +77,11 @@ async function sendSummaryEmail(token, payload) {
     `Primary guest: ${payload.firstName}`,
     `Second guest: ${payload.secondGuest || '—'}`,
     `Response: ${payload.response}`,
+    `Attendance mode: ${payload.attendanceMode || '—'}`,
+    `Single attendee: ${payload.singleAttendeeName || '—'}`,
     `Guest count: ${payload.guestCount}`,
-    `Guest name: ${payload.guestName || '—'}`,
+    `Party guest: ${payload.partyGuestName || '—'}`,
+    `Dinner guest: ${payload.dinnerGuestName || '—'}`,
     `Dietary: ${payload.dietary || '—'}`,
     `Notes / Song request: ${payload.notes || '—'}`,
     `Submitted at: ${payload.submittedAt}`,
@@ -146,16 +153,22 @@ export async function POST(request) {
     const submittedAt = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })
 
     const response = payload.response || ''
+    const attendanceMode = payload.attendanceMode || ''
+    const singleAttendeeName = payload.singleAttendeeName || ''
     const guestCount = payload.guestCount || ''
-    const guestName = payload.guestName || ''
+    const partyGuestName = payload.partyGuestName || ''
+    const dinnerGuestName = payload.dinnerGuestName || ''
     const dietary = payload.dietary || ''
     const notes = payload.notes || ''
 
     const updates = [
       'submitted',
       response,
+      attendanceMode,
+      singleAttendeeName,
       guestCount,
-      guestName,
+      partyGuestName,
+      dinnerGuestName,
       dietary,
       notes,
       notes,
@@ -164,7 +177,7 @@ export async function POST(request) {
       '',
     ]
 
-    const range = `Sheet1!O${rowNumber}:X${rowNumber}`
+    const range = `Sheet1!P${rowNumber}:AB${rowNumber}`
     const updateRes = await fetch(`${SHEETS_BASE}/${encodeURIComponent(range)}?valueInputOption=USER_ENTERED`, {
       method: 'PUT',
       headers: {
@@ -182,14 +195,17 @@ export async function POST(request) {
       firstName: guest.firstName,
       secondGuest: guest.secondGuest,
       response,
+      attendanceMode,
+      singleAttendeeName,
       guestCount,
-      guestName,
+      partyGuestName,
+      dinnerGuestName,
       dietary,
       notes,
       submittedAt,
     })
 
-    const emailStatusRange = `Sheet1!W${rowNumber}:X${rowNumber}`
+    const emailStatusRange = `Sheet1!AA${rowNumber}:AB${rowNumber}`
     await fetch(`${SHEETS_BASE}/${encodeURIComponent(emailStatusRange)}?valueInputOption=USER_ENTERED`, {
       method: 'PUT',
       headers: {

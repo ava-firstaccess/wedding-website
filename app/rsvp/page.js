@@ -18,24 +18,31 @@ const EVENT_DETAILS = {
 
 function InvitePage({ guest, code, onBack }) {
   const [attendance, setAttendance] = useState('')
-  const [bringingPlusOne, setBringingPlusOne] = useState('')
-  const [plusOneName, setPlusOneName] = useState('')
+  const [attendanceMode, setAttendanceMode] = useState('')
+  const [singleAttendeeName, setSingleAttendeeName] = useState('')
+  const [partyGuestName, setPartyGuestName] = useState('')
+  const [dinnerGuestName, setDinnerGuestName] = useState('')
   const [dietary, setDietary] = useState('')
   const [notes, setNotes] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
   const isFullInvite = guest.inviteType === 'full'
-  const canBringPlusOne = guest.partySize === 1 && !guest.secondGuest
-  const greeting = guest.secondGuest
-    ? `Hi ${guest.firstName} & ${guest.secondGuest}`
-    : canBringPlusOne
-      ? `Hi ${guest.firstName} & Guest`
-      : `Hi ${guest.firstName}`
+  const partySize = Number(guest.partySize || 1)
+  const dinnerQuantity = Number(guest.dinnerQuantity || 0)
+  const guest1 = guest.firstName
+  const guest2 = guest.secondGuest
+  const hasNamedSecondGuest = Boolean(guest2)
+
+  const greeting = hasNamedSecondGuest
+    ? `Hi ${guest1} & ${guest2}`
+    : partySize === 1
+      ? `Hi ${guest1} & Guest`
+      : `Hi ${guest1}`
 
   const attendanceOptions = isFullInvite
     ? [
-        { value: 'both', label: 'Both' },
+        { value: 'both', label: 'Yes' },
         { value: 'party-only', label: 'Party Only' },
         { value: 'decline', label: 'Can’t Make It' },
       ]
@@ -44,12 +51,29 @@ function InvitePage({ guest, code, onBack }) {
         { value: 'decline', label: 'Can’t Make It' },
       ]
 
+  const needsPartyPairChoice = partySize === 2
+  const canBringPartyGuestAfterDinner = isFullInvite && dinnerQuantity === 1 && partySize === 1
+  const canBringGuestToDinnerAndParty = isFullInvite && dinnerQuantity === 2 && partySize === 1
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!attendance) return
-    if (canBringPlusOne && attendance !== 'decline' && bringingPlusOne === 'yes' && !plusOneName.trim()) return
+    if (needsPartyPairChoice && attendance !== 'decline' && !attendanceMode) return
+    if (attendanceMode === 'one' && !singleAttendeeName) return
+    if (canBringPartyGuestAfterDinner && attendance !== 'decline' && !partyGuestName.trim()) return
+    if (canBringGuestToDinnerAndParty && attendance !== 'decline' && !dinnerGuestName.trim()) return
 
-    const guestCount = guest.secondGuest ? 2 : bringingPlusOne === 'yes' ? 2 : 1
+    const guestCount =
+      attendance === 'decline'
+        ? 0
+        : attendanceMode === 'both'
+          ? 2
+          : attendanceMode === 'one'
+            ? 1
+            : canBringPartyGuestAfterDinner || canBringGuestToDinnerAndParty
+              ? 2
+              : partySize
+
     setSubmitting(true)
     try {
       const res = await fetch('/api/rsvp', {
@@ -58,8 +82,11 @@ function InvitePage({ guest, code, onBack }) {
         body: JSON.stringify({
           code,
           response: attendance,
+          attendanceMode,
+          singleAttendeeName,
           guestCount,
-          guestName: plusOneName.trim(),
+          partyGuestName: partyGuestName.trim(),
+          dinnerGuestName: dinnerGuestName.trim(),
           dietary: isFullInvite ? dietary.trim() : '',
           notes: notes.trim(),
         }),
@@ -67,7 +94,7 @@ function InvitePage({ guest, code, onBack }) {
 
       if (!res.ok) throw new Error('Submit failed')
       setSubmitted(true)
-    } catch (error) {
+    } catch {
       alert('Something went wrong. Please try again.')
     } finally {
       setSubmitting(false)
@@ -100,26 +127,6 @@ function InvitePage({ guest, code, onBack }) {
           <span className={styles.menuLabel}>Dress</span>
           <span className={styles.menuValue}>{EVENT_DETAILS.dressCode}</span>
         </div>
-        <div className={styles.menuRow}>
-          <span className={styles.menuLabel}>Food</span>
-          <span className={styles.menuValue}>{isFullInvite ? 'Dinner, cocktail apps, and midnight pizza.' : 'Cocktail apps, midnight pizza, and an open bar. Please eat dinner before arriving.'}</span>
-        </div>
-        <div className={styles.menuRow}>
-          <span className={styles.menuLabel}>Parking</span>
-          <span className={styles.menuValue}>Parking and valet available at Hotel Revival.</span>
-        </div>
-        <div className={styles.menuRow}>
-          <span className={styles.menuLabel}>Hotel</span>
-          <span className={styles.menuValue}>{EVENT_DETAILS.hotelBlockUrl}</span>
-        </div>
-        <div className={styles.menuRow}>
-          <span className={styles.menuLabel}>RSVP By</span>
-          <span className={styles.menuValue}>{EVENT_DETAILS.rsvpDeadline}</span>
-        </div>
-        <div className={styles.menuRow}>
-          <span className={styles.menuLabel}>Notes</span>
-          <span className={styles.menuValue}>Adults only. Indoor event.</span>
-        </div>
       </div>
 
       <hr className={styles.rule} />
@@ -140,8 +147,10 @@ function InvitePage({ guest, code, onBack }) {
                 onClick={() => {
                   setAttendance(opt.value)
                   if (opt.value === 'decline') {
-                    setBringingPlusOne('')
-                    setPlusOneName('')
+                    setAttendanceMode('')
+                    setSingleAttendeeName('')
+                    setPartyGuestName('')
+                    setDinnerGuestName('')
                   }
                 }}
               >
@@ -150,21 +159,18 @@ function InvitePage({ guest, code, onBack }) {
             ))}
           </div>
 
-          {canBringPlusOne && attendance && attendance !== 'decline' ? (
+          {needsPartyPairChoice && attendance && attendance !== 'decline' ? (
             <div className={`${styles.pillGroup} ${styles.fadeIn}`}>
-              <span className={styles.pillGroupLabel}>Plus One</span>
+              <span className={styles.pillGroupLabel}>Who’s Coming?</span>
               {[
-                { value: 'yes', label: 'Yes' },
-                { value: 'no', label: 'No' },
+                { value: 'both', label: 'We Both Can Make It' },
+                { value: 'one', label: 'Only One Of Us Can Make It' },
               ].map((opt) => (
                 <button
                   key={opt.value}
                   type="button"
-                  className={`${styles.pill} ${styles.pillBorderless} ${bringingPlusOne === opt.value ? styles.pillActive : ''}`}
-                  onClick={() => {
-                    setBringingPlusOne(opt.value)
-                    if (opt.value === 'no') setPlusOneName('')
-                  }}
+                  className={`${styles.pill} ${styles.pillBorderless} ${attendanceMode === opt.value ? styles.pillActive : ''}`}
+                  onClick={() => setAttendanceMode(opt.value)}
                 >
                   {opt.label}
                 </button>
@@ -172,15 +178,50 @@ function InvitePage({ guest, code, onBack }) {
             </div>
           ) : null}
 
-          {canBringPlusOne && bringingPlusOne === 'yes' ? (
+          {needsPartyPairChoice && attendanceMode === 'one' ? (
             <div className={`${styles.field} ${styles.fadeIn}`}>
-              <label htmlFor="plusOneName">Guest Name</label>
+              <label htmlFor="singleAttendeeName">Who’s Coming?</label>
+              <select
+                id="singleAttendeeName"
+                name="singleAttendeeName"
+                value={singleAttendeeName}
+                onChange={(e) => setSingleAttendeeName(e.target.value)}
+                className={styles.select}
+                required
+              >
+                <option value="">Select one</option>
+                <option value={guest1}>Just {guest1}</option>
+                <option value={guest2}>Just {guest2}</option>
+              </select>
+            </div>
+          ) : null}
+
+          {canBringPartyGuestAfterDinner && attendance && attendance !== 'decline' ? (
+            <div className={`${styles.field} ${styles.fadeIn}`}>
+              <label htmlFor="partyGuestName">Party Guest Name</label>
+              <p className={styles.helper}>You’re also invited to bring a guest to meet you at the party after dinner at 9 PM.</p>
               <input
-                id="plusOneName"
-                name="plusOneName"
+                id="partyGuestName"
+                name="partyGuestName"
                 type="text"
-                value={plusOneName}
-                onChange={(e) => setPlusOneName(e.target.value)}
+                value={partyGuestName}
+                onChange={(e) => setPartyGuestName(e.target.value)}
+                placeholder="Guest name"
+                required
+              />
+            </div>
+          ) : null}
+
+          {canBringGuestToDinnerAndParty && attendance && attendance !== 'decline' ? (
+            <div className={`${styles.field} ${styles.fadeIn}`}>
+              <label htmlFor="dinnerGuestName">Guest Name</label>
+              <p className={styles.helper}>Your guest is invited to join you for both dinner and the party.</p>
+              <input
+                id="dinnerGuestName"
+                name="dinnerGuestName"
+                type="text"
+                value={dinnerGuestName}
+                onChange={(e) => setDinnerGuestName(e.target.value)}
                 placeholder="Guest name"
                 required
               />
@@ -261,7 +302,7 @@ export default function RSVP() {
       setGuest(data.guest)
       setActiveCode(normalized)
       setCodeError('')
-    } catch (error) {
+    } catch {
       setCodeError('Code not found.')
       setGuest(null)
       setActiveCode('')
