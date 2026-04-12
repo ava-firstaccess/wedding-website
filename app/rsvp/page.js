@@ -5,23 +5,6 @@ import Image from 'next/image'
 import Nav from '../components/Nav'
 import styles from './page.module.css'
 
-const MOCK_GUESTS = {
-  DINNER1: {
-    code: 'DINNER1',
-    firstName: 'Ava',
-    secondGuest: 'Zach',
-    inviteType: 'full',
-    partySize: 2,
-  },
-  PARTY1: {
-    code: 'PARTY1',
-    firstName: 'Zach',
-    secondGuest: '',
-    inviteType: 'party',
-    partySize: 1,
-  },
-}
-
 const EVENT_DETAILS = {
   venueName: 'Hotel Revival',
   spaceName: 'Topside',
@@ -33,16 +16,17 @@ const EVENT_DETAILS = {
   hotelBlockUrl: 'Hotel block link coming soon',
 }
 
-function InvitePage({ guest, onBack }) {
+function InvitePage({ guest, code, onBack }) {
   const [attendance, setAttendance] = useState('')
   const [bringingPlusOne, setBringingPlusOne] = useState('')
   const [plusOneName, setPlusOneName] = useState('')
   const [dietary, setDietary] = useState('')
   const [notes, setNotes] = useState('')
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   const isFullInvite = guest.inviteType === 'full'
-  const canBringPlusOne = guest.partySize === 1
+  const canBringPlusOne = guest.partySize === 1 && !guest.secondGuest
   const greeting = guest.secondGuest
     ? `Hi ${guest.firstName} & ${guest.secondGuest}`
     : canBringPlusOne
@@ -60,11 +44,34 @@ function InvitePage({ guest, onBack }) {
         { value: 'decline', label: 'Can’t Make It' },
       ]
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (!attendance) return
     if (canBringPlusOne && attendance !== 'decline' && bringingPlusOne === 'yes' && !plusOneName.trim()) return
-    setSubmitted(true)
+
+    const guestCount = guest.secondGuest ? 2 : bringingPlusOne === 'yes' ? 2 : 1
+    setSubmitting(true)
+    try {
+      const res = await fetch('/api/rsvp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          code,
+          response: attendance,
+          guestCount,
+          guestName: plusOneName.trim(),
+          dietary: isFullInvite ? dietary.trim() : '',
+          notes: notes.trim(),
+        }),
+      })
+
+      if (!res.ok) throw new Error('Submit failed')
+      setSubmitted(true)
+    } catch (error) {
+      alert('Something went wrong. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -208,7 +215,7 @@ function InvitePage({ guest, onBack }) {
 
           <div className={styles.buttonRow}>
             <button type="button" className={styles.secondaryButton} onClick={onBack}>Back</button>
-            <button type="submit" className={styles.button}>Submit</button>
+            <button type="submit" className={styles.button} disabled={submitting}>{submitting ? '...' : 'Submit'}</button>
           </div>
         </form>
       )}
@@ -220,7 +227,9 @@ export default function RSVP() {
   const [phase, setPhase] = useState('overlay')
   const [codeInput, setCodeInput] = useState('')
   const [guest, setGuest] = useState(null)
+  const [activeCode, setActiveCode] = useState('')
   const [codeError, setCodeError] = useState('')
+  const [loading, setLoading] = useState(false)
   const formRef = useRef(null)
 
   useEffect(() => {
@@ -234,24 +243,36 @@ export default function RSVP() {
     }
   }, [])
 
-  const handleCodeSubmit = (e) => {
+  const handleCodeSubmit = async (e) => {
     e.preventDefault()
     const normalized = codeInput.trim().toUpperCase()
     if (!normalized) return
 
-    const match = MOCK_GUESTS[normalized]
-    if (!match) {
+    setLoading(true)
+    try {
+      const res = await fetch(`/api/rsvp?code=${encodeURIComponent(normalized)}`)
+      if (!res.ok) {
+        setCodeError('Code not found.')
+        setGuest(null)
+        setActiveCode('')
+        return
+      }
+      const data = await res.json()
+      setGuest(data.guest)
+      setActiveCode(normalized)
+      setCodeError('')
+    } catch (error) {
       setCodeError('Code not found.')
       setGuest(null)
-      return
+      setActiveCode('')
+    } finally {
+      setLoading(false)
     }
-
-    setCodeError('')
-    setGuest(match)
   }
 
   const resetGate = () => {
     setGuest(null)
+    setActiveCode('')
     setCodeInput('')
     setCodeError('')
   }
@@ -305,11 +326,11 @@ export default function RSVP() {
 
                 {codeError ? <p className={styles.error}>{codeError}</p> : null}
 
-                <button type="submit" className={styles.button}>Enter</button>
+                <button type="submit" className={styles.button} disabled={loading}>{loading ? '...' : 'Enter'}</button>
               </form>
             </>
           ) : (
-            <InvitePage guest={guest} onBack={resetGate} />
+            <InvitePage guest={guest} code={activeCode} onBack={resetGate} />
           )}
         </div>
       </main>
