@@ -136,11 +136,7 @@ function InvitePage({ guest, code, onBack }) {
 
       <hr className={styles.rule} />
 
-      {submitted ? (
-        <div className={styles.thanksWrap}>
-          <p className={styles.thanks}>Got it.</p>
-        </div>
-      ) : existing && !editing ? (
+      {submitted ? null : existing && !editing ? (
         <div className={styles.form}>
           <div className={styles.summaryCard}>
             <p className={styles.pillGroupLabel}>We already have your RSVP</p>
