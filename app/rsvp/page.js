@@ -54,6 +54,7 @@ function InvitePage({ guest, code, onBack }) {
   const needsPartyPairChoice = partySize === 2
   const canBringPartyGuestAfterDinner = isFullInvite && dinnerQuantity === 1 && partySize === 1
   const canBringGuestToDinnerAndParty = isFullInvite && dinnerQuantity === 2 && partySize === 1
+  const canBringPartyOnlyGuest = !isFullInvite && partySize === 1 && Number(guest.partyQuantity || 1) === 2
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -62,6 +63,7 @@ function InvitePage({ guest, code, onBack }) {
     if (attendanceMode === 'one' && !singleAttendeeName) return
     if (canBringPartyGuestAfterDinner && attendance !== 'decline' && !partyGuestName.trim()) return
     if (canBringGuestToDinnerAndParty && attendance !== 'decline' && !dinnerGuestName.trim()) return
+    if (canBringPartyOnlyGuest && attendance !== 'decline' && !partyGuestName.trim()) return
 
     const guestCount =
       attendance === 'decline'
@@ -70,7 +72,7 @@ function InvitePage({ guest, code, onBack }) {
           ? 2
           : attendanceMode === 'one'
             ? 1
-            : canBringPartyGuestAfterDinner || canBringGuestToDinnerAndParty
+            : canBringPartyGuestAfterDinner || canBringGuestToDinnerAndParty || canBringPartyOnlyGuest
               ? 2
               : partySize
 
@@ -196,10 +198,10 @@ function InvitePage({ guest, code, onBack }) {
             </div>
           ) : null}
 
-          {canBringPartyGuestAfterDinner && attendance && attendance !== 'decline' ? (
+          {(canBringPartyGuestAfterDinner || canBringPartyOnlyGuest) && attendance && attendance !== 'decline' ? (
             <div className={`${styles.field} ${styles.fadeIn}`}>
               <label htmlFor="partyGuestName">Party Guest Name</label>
-              <p className={styles.helper}>You’re also invited to bring a guest to meet you at the party after dinner at 9 PM.</p>
+              <p className={styles.helper}>{canBringPartyGuestAfterDinner ? 'You’re also invited to bring a guest to meet you at the party after dinner at 9 PM.' : 'You’re invited to bring a guest to the party. Add their name here.'}</p>
               <input
                 id="partyGuestName"
                 name="partyGuestName"
