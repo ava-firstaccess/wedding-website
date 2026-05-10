@@ -295,8 +295,8 @@
 }
 
 .gatePane {
-  min-height: 38vh;
-  padding-top: 5vh;
+  min-height: 46vh;
+  padding-top: 12vh;
 }
 
 .absolutePane {
@@ -400,8 +400,8 @@
   }
 
   .gatePane {
-    min-height: 34vh;
-    padding-top: 8vh;
+    min-height: 40vh;
+    padding-top: 14vh;
   }
 
   .menuRow {
