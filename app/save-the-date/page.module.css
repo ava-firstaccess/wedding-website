@@ -6,6 +6,7 @@
   min-height: 38vh;
   padding-top: 5vh;
   text-align: center;
+  gap: 1rem;
 }
 
 .date {
@@ -17,10 +18,31 @@
   line-height: 1;
 }
 
+.title {
+  font-family: var(--font-lora);
+  font-size: clamp(1.05rem, 3vw, 1.5rem);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.location,
+.note {
+  font-family: var(--font-newsreader);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.note {
+  margin-top: 0.75rem;
+  opacity: 0.68;
+}
+
 @media (max-width: 480px) {
   .contentWrap {
     min-height: 34vh;
     padding-top: 8vh;
+    gap: 0.85rem;
   }
 
   .date {

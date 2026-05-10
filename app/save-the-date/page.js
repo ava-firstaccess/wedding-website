@@ -48,6 +48,9 @@ export default function SaveTheDate() {
         <div className={`${baseStyles.content} ${phase === 'form-in' ? baseStyles.visible : ''}`}>
           <div className={styles.contentWrap}>
             <h1 className={styles.date}>12.31.2026</h1>
+            <p className={styles.title}>New Year&apos;s Eve Reception</p>
+            <p className={styles.location}>Baltimore, MD</p>
+            <p className={styles.note}>Details to follow with RSVP</p>
           </div>
         </div>
       </main>
