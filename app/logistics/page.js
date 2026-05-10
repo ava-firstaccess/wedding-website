@@ -76,7 +76,7 @@ export default function Logistics() {
         </div>
         <div className={`${styles.content} ${phase === 'form-in' ? styles.visible : ''}`}>
           {view !== 'invite' ? (
-            <div className={`${styles.transitionPane} ${view === 'fading' ? styles.transitionOut : styles.transitionIn}`}>
+            <div className={`${styles.transitionPane} ${styles.gatePane} ${view === 'fading' ? styles.transitionOut : styles.transitionIn}`}>
               <h1 className={styles.heading}>Logistics</h1>
               <hr className={styles.rule} />
               <form className={styles.form} onSubmit={handleSubmit}>

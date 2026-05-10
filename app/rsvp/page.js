@@ -413,7 +413,7 @@ export default function RSVP() {
 
         <div ref={formRef} className={`${styles.content} ${phase === 'form-in' ? styles.visible : ''}`}>
           {view !== 'invite' ? (
-            <div className={`${styles.transitionPane} ${view === 'fading' ? styles.transitionOut : styles.transitionIn} ${view === 'invite' ? styles.hiddenPane : ''}`}>
+            <div className={`${styles.transitionPane} ${styles.gatePane} ${view === 'fading' ? styles.transitionOut : styles.transitionIn} ${view === 'invite' ? styles.hiddenPane : ''}`}>
               <h1 className={styles.heading}>Enter Code To Party</h1>
               <hr className={styles.rule} />
 

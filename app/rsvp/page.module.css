@@ -294,6 +294,11 @@
   transition: opacity 0.38s ease-in-out, transform 0.38s ease-in-out;
 }
 
+.gatePane {
+  min-height: 38vh;
+  padding-top: 5vh;
+}
+
 .absolutePane {
   width: 100%;
 }
@@ -392,6 +397,11 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+
+  .gatePane {
+    min-height: 34vh;
+    padding-top: 8vh;
   }
 
   .menuRow {
