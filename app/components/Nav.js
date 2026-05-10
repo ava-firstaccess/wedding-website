@@ -9,7 +9,7 @@ export default function Nav() {
 
   const links = [
     { href: '/', label: 'Home' },
-    { href: '/savethedate', label: 'Save the Date' },
+    { href: '/savethedate', label: '12.31.2026' },
     { href: '/rsvp', label: 'RSVP' },
     { href: '/logistics', label: 'Logistics' },
   ]
