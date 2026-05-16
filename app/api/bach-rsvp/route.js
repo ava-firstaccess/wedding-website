@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 
 const SHEET_ID = '1ipw1XVw5s5avPbemguP1V7OgIrKdJTYf3OdwQEZXSGM'
 const TOKEN_URL = 'https://oauth2.googleapis.com/token'
-const SHEETS_URL = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Responses!A:E:append?valueInputOption=USER_ENTERED`
+const SHEETS_URL = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Responses!A:G:append?valueInputOption=USER_ENTERED`
 
 async function getAccessToken() {
   const res = await fetch(TOKEN_URL, {
@@ -21,14 +21,26 @@ async function getAccessToken() {
 
 export async function POST(request) {
   try {
-    const { name, rsvp, knowBy, weekends } = await request.json()
+    const { type, name, rsvp, knowBy, weekends, flightInfo } = await request.json()
 
-    if (!name || !rsvp) {
+    if (!name) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+    }
+
+    if (type !== 'flight' && !rsvp) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+    }
+
+    if (type === 'flight' && !flightInfo) {
+      return NextResponse.json({ error: 'Missing flight info' }, { status: 400 })
     }
 
     const token = await getAccessToken()
     const timestamp = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })
+
+    const values = type === 'flight'
+      ? [[timestamp, name, 'flight-info', '', '', flightInfo || '', '']]
+      : [[timestamp, name, rsvp, knowBy || '', weekends || '', '', '']]
 
     await fetch(SHEETS_URL, {
       method: 'POST',
@@ -36,9 +48,7 @@ export async function POST(request) {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        values: [[timestamp, name, rsvp, knowBy || '', weekends || '']],
-      }),
+      body: JSON.stringify({ values }),
     })
 
     return NextResponse.json({ ok: true })

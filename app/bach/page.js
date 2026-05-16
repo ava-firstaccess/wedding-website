@@ -1,44 +1,40 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 import Nav from '../components/Nav'
 import styles from './page.module.css'
 
+const VILLA_IMAGES = [
+  'https://www.mayaluxe.com/wp-content/uploads/2026/03/entrada-del-mar-hero-2.jpg',
+  'https://www.mayaluxe.com/wp-content/uploads/2026/03/Maya_Luxe_Luxury_Villas_Experiences_Soliman_Bay_Tulum_Amaite_1HERO-2.jpg',
+  'https://www.mayaluxe.com/wp-content/uploads/2026/03/Maya_Luxe_Luxury_Villas_Experiences_Soliman_Bay_Tulum_Amaite_10-2.jpg',
+  'https://www.mayaluxe.com/wp-content/uploads/2026/03/Maya_Luxe_Luxury_Villas_Experiences_Soliman_Bay_Tulum_Amaite_41.jpg',
+]
+
 export default function Bach() {
-  const [phase, setPhase] = useState('overlay')  // overlay → lions-out → form-in
-  const [rsvp, setRsvp] = useState('')
-  const [knowBy, setKnowBy] = useState('')
-  const [weekends, setWeekends] = useState([])
+  const [name, setName] = useState('')
+  const [flightInfo, setFlightInfo] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
-  useEffect(() => {
-    // Black overlay fades out (1.5s), revealing lions behind it
-    const revealTimer = setTimeout(() => setPhase('lions-in'), 100)
-    // Hold lions, then fade them out
-    const fadeOutTimer = setTimeout(() => setPhase('lions-out'), 3100)
-    // After lions fade out, show form
-    const formTimer = setTimeout(() => setPhase('form-in'), 4600)
-    return () => {
-      clearTimeout(revealTimer)
-      clearTimeout(fadeOutTimer)
-      clearTimeout(formTimer)
-    }
-  }, [])
-
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const name = e.target.name.value.trim()
-    if (!name || !rsvp) return
-    if (rsvp === 'maybe' && !knowBy) return
+    if (!name.trim() || !flightInfo.trim()) return
+
     setSubmitting(true)
     try {
-      await fetch('/api/bach-rsvp', {
+      const res = await fetch('/api/bach-rsvp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, rsvp, knowBy, weekends: weekends.join(', ') }),
+        body: JSON.stringify({
+          type: 'flight',
+          name: name.trim(),
+          flightInfo: flightInfo.trim(),
+        }),
       })
+
+      if (!res.ok) throw new Error('Submit failed')
       setSubmitted(true)
     } catch {
       alert('Something went wrong. Try again.')
@@ -49,135 +45,100 @@ export default function Bach() {
 
   return (
     <>
-      {/* Black overlay that fades away to reveal lions */}
-      {(phase === 'overlay' || phase === 'lions-in') && (
-        <div className={phase === 'overlay' ? styles.overlay : styles.overlayFading} />
-      )}
       <Nav />
       <main className={styles.main}>
-        {/* Lion reveal */}
-        <div className={`${styles.lionsWrap} ${
-          (phase === 'overlay' || phase === 'lions-in') ? styles.lionsVisible :
-          phase === 'lions-out' ? styles.lionsFading : styles.lionsGone
-        }`}>
-          <Image
-            src="/lion-lioness.png"
-            alt="Lion and Lioness"
-            width={500}
-            height={500}
-            priority
-            className={styles.lionsImage}
-          />
+        <div className={styles.photoCollage}>
+          {VILLA_IMAGES.map((src, index) => (
+            <div key={src} className={`${styles.photoTile} ${styles[`photoTile${index + 1}`]}`}>
+              <Image src={src} alt="Villa Entrada del Mar" fill sizes="(max-width: 900px) 100vw, 33vw" className={styles.photoImage} priority={index === 0} unoptimized />
+            </div>
+          ))}
+          <div className={styles.photoOverlay} />
         </div>
 
-        {/* Form reveal */}
-        <div className={`${styles.content} ${phase === 'form-in' ? styles.visible : ''}`}>
-          <h1 className={styles.heading}>You're Invited.</h1>
+        <div className={styles.content}>
+          <h1 className={styles.heading}>Riviera Maya Details</h1>
           <hr className={styles.rule} />
 
           <div className={styles.menu}>
             <div className={styles.menuRow}>
-              <span className={styles.menuLabel}>The Occasion</span>
-              <span className={styles.menuValue}>Bachelorette / Bachelor — Riviera Maya, Mexico</span>
-            </div>
-            <div className={styles.menuRow}>
-              <span className={styles.menuLabel}>The Dates</span>
+              <span className={styles.menuLabel}>Villa</span>
               <div className={styles.menuValueStack}>
-                <p>TBD — Thursday – Sunday</p>
-                <p className={styles.sub}>3 options below, select all that work for you</p>
+                <p>Villa Entrada del Mar</p>
+                <p className={styles.sub}>Big ocean views, beachfront energy, and a stacked setup for the group.</p>
               </div>
             </div>
             <div className={styles.menuRow}>
-              <span className={styles.menuLabel}>The Cost</span>
+              <span className={styles.menuLabel}>Dates</span>
+              <span className={styles.menuValue}>Thursday, Nov 12 to Sunday, Nov 15</span>
+            </div>
+            <div className={styles.menuRow}>
+              <span className={styles.menuLabel}>Airport</span>
               <div className={styles.menuValueStack}>
-                <p>Flights: $400–500 round trip</p>
-                <p>Beachfront Lodging: $450–$650 per person</p>
-                <p className={styles.sub}>Leading contender is $550, subject to headcount.</p>
-                <p className={styles.subsectionLabel}>Included:</p>
-                <p className={styles.sub}>Chef for breakfast &amp; lunch, bartender (prorated for non-drinkers), housekeeping, airport shuttle (if arriving at similar times)</p>
-                <p className={styles.subsectionLabel}>Additional costs:</p>
-                <p className={styles.sub}>Groceries for chef, alcohol for bartender, optional activities — boat day, golf, night out</p>
+                <p>Cancún International Airport</p>
+                <p className={styles.sub}>Airport code: CUN</p>
               </div>
             </div>
             <div className={styles.menuRow}>
-              <span className={styles.menuLabel}>Your Room</span>
-              <span className={styles.menuValue}>Singles will have their own bed in a shared 2-person room. Couples will have their own room.</span>
+              <span className={styles.menuLabel}>Lodging</span>
+              <div className={styles.menuValueStack}>
+                <p>$550 per person</p>
+                <p className={styles.sub}>Includes villa, chef, and bartender.</p>
+              </div>
+            </div>
+            <div className={styles.menuRow}>
+              <span className={styles.menuLabel}>Additional</span>
+              <div className={styles.menuValueStack}>
+                <p>Groceries</p>
+                <p>Alcohol, if participating</p>
+              </div>
+            </div>
+            <div className={styles.menuRow}>
+              <span className={styles.menuLabel}>Transport</span>
+              <span className={styles.menuValue}>We’ll coordinate group airport transport once flights are in.</span>
+            </div>
+          </div>
+
+          <hr className={styles.rule} />
+
+          <div className={styles.menu}>
+            <div className={styles.menuRow}>
+              <span className={styles.menuLabel}>Flight Info</span>
+              <div className={styles.menuValueStack}>
+                <p>Once you have your flight and flight number, submit it here.</p>
+                <p className={styles.sub}>We’ll use it to coordinate arrivals and group transport.</p>
+              </div>
             </div>
           </div>
 
           <hr className={styles.rule} />
 
           {submitted ? (
-            <p className={styles.thanks}>We got you. See you there.</p>
+            <p className={styles.thanks}>Got it. Flight info saved.</p>
           ) : (
-          <form className={styles.form} onSubmit={handleSubmit}>
-            <div className={styles.field}>
-              <label htmlFor="name">Name</label>
-              <input id="name" name="name" type="text" required placeholder="Your name" />
-            </div>
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <div className={styles.field}>
+                <label htmlFor="name">Name</label>
+                <input id="name" name="name" type="text" value={name} onChange={(e) => setName(e.target.value)} required placeholder="Your name" />
+              </div>
 
-            <div className={styles.pillGroup} style={{marginTop: '0.75rem'}}>
-              <span className={styles.pillGroupLabel}>Which weekends work for you?<br /><span className={styles.sub}>(select all that apply)</span></span>
-              {[
-                { value: 'Weekend 1', label: 'Weekend 1 — Thu Nov 5 – Sun Nov 8' },
-                { value: 'Weekend 2', label: 'Weekend 2 — Thu Nov 12 – Sun Nov 15' },
-                { value: 'Weekend 3', label: 'Weekend 3 — Thu Nov 19 – Sun Nov 22' },
-              ].map((opt) => (
-                <button
-                  key={opt.value}
-                  type="button"
-                  className={`${styles.pill} ${weekends.includes(opt.value) ? styles.pillActive : ''}`}
-                  onClick={() => {
-                    if (weekends.includes(opt.value)) {
-                      setWeekends(weekends.filter((w) => w !== opt.value))
-                    } else {
-                      setWeekends([...weekends, opt.value])
-                    }
-                  }}
-                >
-                  {opt.label}
-                </button>
-              ))}
-            </div>
-
-            <div className={styles.pillGroup}>
-              <span className={styles.pillGroupLabel}>Are you in?</span>
-              {[
-                { value: 'in', label: 'I Am In' },
-                { value: 'cost', label: 'I Am In Depending on Final Cost' },
-                { value: 'maybe', label: 'I Am a Maybe' },
-                { value: 'out', label: 'I Am Out — See You on NYE' },
-              ].map((opt) => (
-                <button
-                  key={opt.value}
-                  type="button"
-                  className={`${styles.pill} ${styles.pillBorderless} ${rsvp === opt.value ? styles.pillActive : ''}`}
-                  onClick={() => setRsvp(opt.value)}
-                >
-                  {opt.label}
-                </button>
-              ))}
-              <input type="hidden" name="rsvp" value={rsvp} />
-            </div>
-
-            {rsvp === 'maybe' && (
-              <div className={`${styles.field} ${styles.fadeIn}`}>
-                <label htmlFor="knowBy">I will know by</label>
-                <input
-                  id="knowBy"
-                  name="knowBy"
-                  type="date"
+              <div className={styles.field}>
+                <label htmlFor="flightInfo">Flight Info</label>
+                <textarea
+                  id="flightInfo"
+                  name="flightInfo"
+                  rows={4}
+                  value={flightInfo}
+                  onChange={(e) => setFlightInfo(e.target.value)}
                   required
-                  value={knowBy}
-                  onChange={(e) => setKnowBy(e.target.value)}
+                  placeholder="Example: Southwest 1234, BWI to CUN, arrives Thursday 2:15 PM"
                 />
               </div>
-            )}
 
-            <button type="submit" className={styles.button} disabled={submitting}>
-              {submitting ? '...' : 'Send It'}
-            </button>
-          </form>
+              <button type="submit" className={styles.button} disabled={submitting}>
+                {submitting ? '...' : 'Submit Flight Info'}
+              </button>
+            </form>
           )}
         </div>
       </main>
