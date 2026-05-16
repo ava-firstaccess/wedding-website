@@ -278,7 +278,7 @@ function InvitePreview({ guest, code, refreshGuest }) {
               >
                 <option value="">Select one</option>
                 <option value={guest1}>Just {guest1}</option>
-                <option value={guest2}>Just {guest2}</option>
+                {guest2 ? <option value={guest2}>Just {guest2}</option> : null}
               </select>
             </div>
           ) : null}
@@ -556,7 +556,8 @@ export default function DevRsvpPage() {
             },
           }
 
-          return <InvitePreview guest={mockGuestByTab[activeTab]} code="DEVMOCK" refreshGuest={async () => {}} />
+          const fallbackGuest = mockGuestByTab[activeTab] || mockGuestByTab['full-pair']
+          return <InvitePreview guest={fallbackGuest} code="DEVMOCK" refreshGuest={async () => {}} />
         })()}
       </div>
     </main>
