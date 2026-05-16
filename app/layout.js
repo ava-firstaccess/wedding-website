@@ -16,6 +16,12 @@ const newsreader = Newsreader({
 export const metadata = {
   title: 'Zach & Ciera Bosson',
   description: 'New Years Eve Reception — Baltimore, MD',
+  icons: {
+    icon: [
+      { url: '/favicon-lioness.svg', type: 'image/svg+xml' },
+      { url: '/favicon-b.svg', type: 'image/svg+xml', rel: 'alternate icon' },
+    ],
+  },
 }
 
 export default function RootLayout({ children }) {
