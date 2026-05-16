@@ -64,7 +64,12 @@ export default function Bach() {
             <div className={styles.menuRow}>
               <span className={styles.menuLabel}>Villa</span>
               <div className={styles.menuValueStack}>
-                <p>Villa Entrada del Mar</p>
+                <p>
+                  Villa Entrada del Mar{' '}
+                  <a href="https://www.mayaluxe.com/luxury-villas/villa-entrada-del-mar/" target="_blank" rel="noreferrer" className={styles.inlineLink}>
+                    more pics
+                  </a>
+                </p>
                 <p className={styles.sub}>Big ocean views, beachfront energy, and a stacked setup for the group.</p>
               </div>
             </div>

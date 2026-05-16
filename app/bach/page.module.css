@@ -130,6 +130,16 @@
   font-size: 0.92rem;
 }
 
+.inlineLink {
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.inlineLink:hover {
+  color: #fff;
+}
+
 .form {
   display: flex;
   flex-direction: column;
