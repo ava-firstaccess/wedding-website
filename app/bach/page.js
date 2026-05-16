@@ -91,11 +91,9 @@ export default function Bach() {
               <div className={styles.menuValueStack}>
                 <p>Groceries</p>
                 <p>Alcohol, if participating</p>
+                <p>Airport transport</p>
+                <p className={styles.sub}>We’ll coordinate group airport transport once flights are in.</p>
               </div>
-            </div>
-            <div className={styles.menuRow}>
-              <span className={styles.menuLabel}>Transport</span>
-              <span className={styles.menuValue}>We’ll coordinate group airport transport once flights are in.</span>
             </div>
           </div>
 
