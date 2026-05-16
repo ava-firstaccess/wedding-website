@@ -6,11 +6,11 @@ import Nav from '../components/Nav'
 import styles from './page.module.css'
 
 const EVENT_DETAILS = {
-  venueName: 'Hotel Revival',
-  spaceName: 'Topside',
+  venueName: 'Topside at Hotel Revival',
   address: '101 W Monument St, Baltimore, MD 21201',
-  dinnerTime: '7:00 PM',
-  partyArrival: '9:00 PM',
+  welcomeCocktails: 'Welcome Cocktails at 7:00PM',
+  dinnerTime: 'Dinner 7:30pm',
+  partyTime: 'NYE Celebration at 9:00PM',
   dressCode: 'New Year’s Eve formal',
   rsvpDeadline: 'July 31',
   hotelBlockUrl: 'Hotel block link coming soon',
@@ -119,15 +119,23 @@ function InvitePage({ guest, code, onBack }) {
       <div className={styles.menu}>
         <div className={styles.menuRow}>
           <span className={styles.menuLabel}>Venue</span>
-          <span className={styles.menuValue}>{EVENT_DETAILS.spaceName}, {EVENT_DETAILS.venueName}</span>
+          <span className={styles.menuValue}>{EVENT_DETAILS.venueName}</span>
         </div>
         <div className={styles.menuRow}>
           <span className={styles.menuLabel}>Address</span>
-          <span className={styles.menuValue}>{EVENT_DETAILS.address}</span>
+          <span className={styles.menuValueBlock}>
+            <span>{EVENT_DETAILS.address}</span>
+            <span>{EVENT_DETAILS.welcomeCocktails}</span>
+            <span>{EVENT_DETAILS.dinnerTime}</span>
+          </span>
         </div>
         <div className={styles.menuRow}>
-          <span className={styles.menuLabel}>Arrival</span>
-          <span className={styles.menuValue}>{isFullInvite ? `Dinner guests arrive at ${EVENT_DETAILS.dinnerTime}. Party guests arrive at ${EVENT_DETAILS.partyArrival}.` : `Please arrive at ${EVENT_DETAILS.partyArrival}.`}</span>
+          <span className={styles.menuLabel}>Dinner</span>
+          <span className={styles.menuValue}>{EVENT_DETAILS.dinnerTime}</span>
+        </div>
+        <div className={styles.menuRow}>
+          <span className={styles.menuLabel}>Party</span>
+          <span className={styles.menuValue}>{EVENT_DETAILS.partyTime}</span>
         </div>
         <div className={styles.menuRow}>
           <span className={styles.menuLabel}>Dress</span>

@@ -133,6 +133,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
+  padding-top: 0.75rem;
 }
 
 .menuRow {
@@ -153,6 +154,15 @@
 }
 
 .menuValue {
+  font-family: var(--font-newsreader);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.menuValueBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
   font-family: var(--font-newsreader);
   font-size: 1rem;
   line-height: 1.6;
