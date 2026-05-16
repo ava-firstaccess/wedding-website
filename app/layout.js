@@ -18,8 +18,8 @@ export const metadata = {
   description: 'New Years Eve Reception — Baltimore, MD',
   icons: {
     icon: [
-      { url: '/favicon-lioness.svg', type: 'image/svg+xml' },
-      { url: '/favicon-b.svg', type: 'image/svg+xml', rel: 'alternate icon' },
+      { url: '/favicon-b.svg', type: 'image/svg+xml' },
+      { url: '/favicon-lioness.svg', type: 'image/svg+xml', rel: 'alternate icon' },
     ],
   },
 }
