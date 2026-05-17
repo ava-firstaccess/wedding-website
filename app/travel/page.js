@@ -29,11 +29,30 @@ function WeddingStory() {
   )
 }
 
+function TravelHero() {
+  return (
+    <section className={styles.heroSection}>
+      <div className={styles.heroContent}>
+        <p className={styles.date}>December 31, 2026</p>
+        <h1 className={styles.kicker}>A New Year&apos;s Eve Reception</h1>
+
+        <div className={styles.spacer} />
+
+        <h2 className={styles.statement}>
+          Ciera &amp; Zach request your company as we celebrate our marriage with family and friends.
+        </h2>
+      </div>
+    </section>
+  )
+}
+
 function TravelContent({ guest }) {
   const isFullInvite = guest?.inviteType === 'full'
 
   return (
     <>
+      <TravelHero />
+
       <section className={styles.detailsSection}>
         <div className={styles.detailsGrid}>
           <div className={styles.detailsColumn}>
@@ -145,6 +164,7 @@ export default function Travel() {
       <main className={styles.main}>
         {view !== 'invite' ? (
           <>
+            <TravelHero />
             <WeddingStory />
             <section className={styles.travelGateSection}>
               <div className={styles.travelGateContent}>
