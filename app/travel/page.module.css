@@ -53,7 +53,7 @@
 
 .storyTitle {
   font-family: 'AlmondyItalic', 'Almondy', var(--font-lora), serif;
-  font-size: 32px;
+  font-size: 72px;
   font-style: italic;
   font-weight: 700;
   line-height: 1.05;
@@ -63,7 +63,7 @@
 
 .storyTagline {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   margin-left: 1.5rem;
   margin-bottom: 1.5rem;
   text-align: left;
@@ -72,7 +72,7 @@
 
 .storyCopy {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.7;
   margin-bottom: 2rem;
   max-width: 52rem;
@@ -89,7 +89,7 @@
 
 .storyInvitation {
   font-family: 'AlmondyItalic', 'Almondy', var(--font-lora), serif;
-  font-size: 22px;
+  font-size: 42px;
   font-style: italic;
   font-weight: 700;
   margin-bottom: 1.5rem;
@@ -107,7 +107,7 @@
   background: #1a1a1a;
   color: #fff;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   transition: background 0.2s ease, color 0.2s ease;
@@ -210,7 +210,7 @@
   margin: 0;
   font-family: 'Almondy', var(--font-lora), serif;
   font-weight: 700;
-  font-size: 22px;
+  font-size: 42px;
   line-height: 1.12;
 }
 
@@ -219,7 +219,7 @@
   font-family: 'AlmondyItalic', 'Almondy', var(--font-lora), serif;
   font-style: italic;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.25;
 }
 
@@ -230,6 +230,7 @@
 .detailLink {
   color: #070503;
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
   text-decoration: underline;
   text-underline-offset: 0.18em;
 }
@@ -241,7 +242,7 @@
 .accommodationsEyebrow {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   letter-spacing: 0.04em;
 }
 
@@ -249,7 +250,7 @@
   margin: 0.8rem 0 1.2rem;
   font-family: 'Almondy', var(--font-lora), serif;
   font-weight: 700;
-  font-size: 22px;
+  font-size: 42px;
   line-height: 1.12;
 }
 
@@ -257,7 +258,7 @@
   margin: 0 auto 1rem;
   max-width: 700px;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.7;
 }
 
@@ -266,7 +267,7 @@
   font-family: 'AlmondyItalic', 'Almondy', var(--font-lora), serif;
   font-style: italic;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.25;
 }
 
@@ -277,7 +278,7 @@
 .accommodationsLink {
   color: #F3F1E7;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   text-decoration: underline;
   text-underline-offset: 0.18em;
 }
