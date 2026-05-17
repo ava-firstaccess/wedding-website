@@ -26,8 +26,14 @@
   padding: 4.5rem 1.5rem 5rem;
 }
 
+.accommodationsSection {
+  background: #070503;
+  color: #F3F1E7;
+  padding: 4.5rem 1.5rem 5rem;
+}
+
 .content,
-.detailsContent {
+.accommodationsContent {
   width: 100%;
   max-width: 760px;
   margin: 0 auto;
@@ -52,6 +58,7 @@
   font-weight: 400;
   font-size: clamp(2.9rem, 7vw, 4.5rem);
   line-height: 1.08;
+  white-space: nowrap;
 }
 
 .spacer {
@@ -113,6 +120,10 @@
   margin-top: 1rem;
 }
 
+.detailSpacer {
+  height: 1.25rem;
+}
+
 .detailHeading {
   margin: 0;
   font-family: 'Almondy', var(--font-lora), serif;
@@ -139,8 +150,52 @@
   text-underline-offset: 0.18em;
 }
 
-.sectionGap {
-  height: 3rem;
+.accommodationsContent {
+  text-align: center;
+}
+
+.accommodationsEyebrow {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+
+.accommodationsTitle {
+  margin: 0.8rem 0 1.2rem;
+  font-family: 'AlmondyItalic', 'Almondy', var(--font-lora), serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(2.3rem, 5vw, 3.5rem);
+  line-height: 1.1;
+}
+
+.accommodationsBody {
+  margin: 0 auto 1rem;
+  max-width: 700px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.accommodationsMeta {
+  margin: 1rem 0 0;
+  font-family: 'AlmondyItalic', 'Almondy', var(--font-lora), serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  line-height: 1.25;
+}
+
+.accommodationsLinkWrap {
+  margin: 1.2rem 0 0;
+}
+
+.accommodationsLink {
+  color: #F3F1E7;
+  font-family: Arial, Helvetica, sans-serif;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 @media (max-width: 640px) {
@@ -148,7 +203,8 @@
     padding-top: 5.25rem;
   }
 
-  .detailsSection {
+  .detailsSection,
+  .accommodationsSection {
     padding-top: 3.5rem;
     padding-bottom: 4rem;
   }
@@ -161,5 +217,9 @@
   .detailsGrid {
     grid-template-columns: 1fr;
     gap: 3rem;
+  }
+
+  .kicker {
+    white-space: normal;
   }
 }
