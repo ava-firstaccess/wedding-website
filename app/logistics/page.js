@@ -1,8 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Nav from '../components/Nav'
 import styles from '../rsvp/page.module.css'
+
+const ACCESS_CODE_KEY = 'wedding-access-code'
 
 function DetailsContent({ guest }) {
   const isFullInvite = guest?.inviteType === 'full'
@@ -37,6 +39,30 @@ export default function Logistics() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const savedCode = window.localStorage.getItem(ACCESS_CODE_KEY)
+    if (!savedCode) return
+
+    setCode(savedCode)
+
+    ;(async () => {
+      setLoading(true)
+      try {
+        const res = await fetch(`/api/rsvp?code=${encodeURIComponent(savedCode)}`)
+        if (!res.ok) throw new Error('Code not found')
+        const data = await res.json()
+        setGuest(data.guest)
+        setError('')
+        setView('invite')
+      } catch {
+        window.localStorage.removeItem(ACCESS_CODE_KEY)
+      } finally {
+        setLoading(false)
+      }
+    })()
+  }, [])
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     const normalized = code.trim().toUpperCase()
@@ -50,6 +76,7 @@ export default function Logistics() {
         return
       }
       const data = await res.json()
+      window.localStorage.setItem(ACCESS_CODE_KEY, normalized)
       setGuest(data.guest)
       setError('')
       setView('invite')

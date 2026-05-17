@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+
+const ACCESS_CODE_KEY = 'wedding-access-code'
 import Image from 'next/image'
 import Nav from '../components/Nav'
 import styles from './page.module.css'
@@ -394,6 +396,38 @@ export default function RsvpExperience({
     setCodeError('')
   }, [initialGuest, initialCode, initialView])
 
+  useEffect(() => {
+    if (initialGuest || initialCode || initialView === 'invite') return
+    if (typeof window === 'undefined') return
+
+    const savedCode = window.localStorage.getItem(ACCESS_CODE_KEY)
+    if (!savedCode) return
+
+    setCodeInput(savedCode)
+
+    ;(async () => {
+      setLoading(true)
+      try {
+        const data = onLookup
+          ? await onLookup(savedCode)
+          : await (async () => {
+              const res = await fetch(`/api/rsvp?code=${encodeURIComponent(savedCode)}`)
+              if (!res.ok) throw new Error('Code not found')
+              return await res.json()
+            })()
+
+        setGuest(data.guest)
+        setActiveCode(savedCode)
+        setCodeError('')
+        setView('invite')
+      } catch {
+        window.localStorage.removeItem(ACCESS_CODE_KEY)
+      } finally {
+        setLoading(false)
+      }
+    })()
+  }, [initialGuest, initialCode, initialView, onLookup])
+
   const handleCodeSubmit = async (e) => {
     e.preventDefault()
     const normalized = codeInput.trim().toUpperCase()
@@ -408,6 +442,10 @@ export default function RsvpExperience({
             if (!res.ok) throw new Error('Code not found')
             return await res.json()
           })()
+
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem(ACCESS_CODE_KEY, normalized)
+      }
 
       setGuest(data.guest)
       setActiveCode(normalized)
@@ -424,6 +462,9 @@ export default function RsvpExperience({
   }
 
   const resetGate = () => {
+    if (typeof window !== 'undefined') {
+      window.localStorage.removeItem(ACCESS_CODE_KEY)
+    }
     setView('gate')
     setGuest(null)
     setActiveCode('')

@@ -3,6 +3,9 @@
 import { useState } from 'react'
 import Nav from './components/Nav'
 import styles from './page.module.css'
+import gateStyles from './rsvp/page.module.css'
+
+const ACCESS_CODE_KEY = 'wedding-access-code'
 
 export default function Home() {
   const [code, setCode] = useState('')
@@ -22,7 +25,8 @@ export default function Home() {
         return
       }
 
-      window.location.href = `/rsvp?code=${encodeURIComponent(normalized)}`
+      window.localStorage.setItem(ACCESS_CODE_KEY, normalized)
+      window.location.href = '/rsvp'
     } catch {
       setError('Code not found.')
     } finally {
@@ -39,20 +43,26 @@ export default function Home() {
           <p className={styles.subtitle}>New Years Eve Reception</p>
           <p className={styles.location}>Baltimore, MD</p>
 
-          <form className={styles.form} onSubmit={handleSubmit}>
-            <input
-              type="text"
-              value={code}
-              onChange={(e) => {
-                setCode(e.target.value.toUpperCase())
-                if (error) setError('')
-              }}
-              placeholder="Enter Password"
-              className={styles.input}
-              required
-            />
-            {error ? <p className={styles.error}>{error}</p> : null}
-            <button type="submit" className={styles.button} disabled={loading}>
+          <form className={gateStyles.form} onSubmit={handleSubmit}>
+            <div className={`${gateStyles.field} ${gateStyles.codeField}`}>
+              <input
+                id="homeCode"
+                name="homeCode"
+                type="text"
+                value={code}
+                onChange={(e) => {
+                  setCode(e.target.value.toUpperCase())
+                  if (error) setError('')
+                }}
+                placeholder="Code"
+                autoCapitalize="characters"
+                autoCorrect="off"
+                spellCheck="false"
+                required
+              />
+            </div>
+            {error ? <p className={gateStyles.error}>{error}</p> : null}
+            <button type="submit" className={gateStyles.button} disabled={loading}>
               {loading ? '...' : 'Enter'}
             </button>
           </form>
