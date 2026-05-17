@@ -10,7 +10,7 @@ export default function Travel() {
       <main className={styles.main}>
         <div className={styles.content}>
           <p className={styles.date}>December 31, 2026</p>
-          <h1 className={styles.kicker}>a New Year&apos;s eve reception</h1>
+          <h1 className={styles.kicker}>A New Year&apos;s Eve Reception</h1>
 
           <div className={styles.spacer} />
 

@@ -1,3 +1,9 @@
+@font-face {
+  font-family: 'Almondy';
+  src: url('/almondy-regular-webfont.woff') format('woff');
+  font-display: swap;
+}
+
 .main {
   min-height: 100vh;
   background: #070503;
@@ -25,11 +31,11 @@
   margin: 0.75rem 0 0;
   text-align: center;
   color: #F3F1E7;
-  font-family: var(--font-lora);
-  font-style: italic;
+  font-family: 'Almondy', var(--font-lora), serif;
+  font-style: normal;
   font-weight: 400;
-  font-size: clamp(2rem, 5vw, 3.25rem);
-  line-height: 1.15;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  line-height: 1.1;
 }
 
 .spacer {
