@@ -21,31 +21,33 @@ export default function Travel() {
 
             <div className={styles.bodyBlock}>
               <p>We&apos;ve been looking forward to this one for a while.</p>
-              <p>Attire: creative black-tie encourage. Dress in what makes you feel so good that you can&apos;t stop dancing.</p>
+              <p>Attire: creative black-tie encouraged. Dress in what makes you feel so good that you can&apos;t stop dancing.</p>
               <p><a href="https://web.telegram.org/when-where" className={styles.link}>Full Details +</a></p>
             </div>
           </div>
         </section>
 
         <section className={styles.detailsSection}>
-          <div className={styles.detailsContent}>
-            <p className={styles.eyebrow}>When</p>
+          <div className={styles.detailsGrid}>
+            <div className={styles.detailsColumn}>
+              <p className={styles.eyebrow}>When</p>
 
-            <div className={styles.detailBlock}>
-              <h2 className={styles.detailHeading}>Thursday,<br />December 31, 2026</h2>
-              <p className={styles.detailCopy}>Dinner: 7:00pm—9:00pm</p>
-              <p className={styles.detailCopy}>Party: 9:00pm—1:30am</p>
-              <p className={styles.detailLinkWrap}><a href="https://web.telegram.org/when-where" className={styles.detailLink}>Full Details +</a></p>
+              <div className={styles.detailBlock}>
+                <h2 className={styles.detailHeading}>Thursday,<br />December 31, 2026</h2>
+                <p className={styles.detailCopy}>Dinner: 7:00pm—9:00pm</p>
+                <p className={styles.detailCopy}>Party: 9:00pm—1:30am</p>
+                <p className={styles.detailLinkWrap}><a href="https://web.telegram.org/when-where" className={styles.detailLink}>Full Details +</a></p>
+              </div>
             </div>
 
-            <div className={styles.sectionGap} />
+            <div className={styles.detailsColumn}>
+              <p className={styles.eyebrow}>Where</p>
 
-            <p className={styles.eyebrow}>Where</p>
-
-            <div className={styles.detailBlock}>
-              <h2 className={styles.detailHeading}>Topside &amp; Garden Room at<br />Hotel Revival</h2>
-              <p className={styles.detailCopy}>101 W Monument St,</p>
-              <p className={styles.detailCopy}>Baltimore, MD 21201</p>
+              <div className={styles.detailBlock}>
+                <h2 className={styles.detailHeading}>Topside &amp; Garden Room at<br />Hotel Revival</h2>
+                <p className={styles.detailCopy}>101 W Monument St,</p>
+                <p className={styles.detailCopy}>Baltimore, MD 21201</p>
+              </div>
             </div>
           </div>
         </section>
