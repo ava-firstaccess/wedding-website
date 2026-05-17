@@ -33,7 +33,7 @@ export default function Travel() {
               <p className={styles.eyebrow}>When</p>
 
               <div className={styles.detailBlock}>
-                <h2 className={styles.detailHeading}>Thursday, December 31, 2026</h2>
+                <h2 className={styles.detailHeading}>Thursday,<br />December 31, 2026</h2>
                 <div className={styles.detailSpacer} />
                 <p className={styles.detailCopy}>Dinner: 7:00pm—9:00pm</p>
                 <p className={styles.detailCopy}>Party: 9:00pm—1:30am</p>
@@ -45,7 +45,7 @@ export default function Travel() {
               <p className={styles.eyebrow}>Where</p>
 
               <div className={styles.detailBlock}>
-                <h2 className={styles.detailHeading}>Topside &amp; Garden Room at Hotel Revival</h2>
+                <h2 className={styles.detailHeading}>Topside &amp; Garden Room<br />at Hotel Revival</h2>
                 <div className={styles.detailSpacer} />
                 <p className={styles.detailCopy}>101 W Monument St,</p>
                 <p className={styles.detailCopy}>Baltimore, MD 21201</p>

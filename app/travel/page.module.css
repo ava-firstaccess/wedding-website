@@ -73,8 +73,11 @@
   font-family: 'AlmondyItalic', 'Almondy', var(--font-lora), serif;
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(2rem, 4.8vw, 3rem);
-  line-height: 1.2;
+  font-size: clamp(1.7rem, 3.6vw, 2.45rem);
+  line-height: 1.16;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .bodyBlock {
