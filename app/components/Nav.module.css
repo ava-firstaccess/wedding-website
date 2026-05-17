@@ -6,22 +6,17 @@
   z-index: 300;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-}
-
-.leftGroup {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  justify-content: space-between;
 }
 
 .brand {
   color: #1a1a1a;
   text-decoration: none;
-  font-family: 'Almondy', var(--font-lora), serif;
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-style: italic;
   font-weight: 700;
-  line-height: 1;
+  line-height: 1.2;
 }
 
 .menuWrap {
@@ -34,6 +29,7 @@
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-end;
   gap: 0.28rem;
   border: none;
   background: transparent;
@@ -45,14 +41,13 @@
   display: block;
   width: 1.4rem;
   height: 1.5px;
-  background: currentColor;
-  color: #1a1a1a;
+  background: #1a1a1a;
 }
 
 .dropdown {
   position: absolute;
   top: calc(100% + 0.4rem);
-  left: 0;
+  right: 0;
   min-width: 180px;
   padding: 0.85rem 1rem;
   display: flex;
@@ -71,10 +66,7 @@
 }
 
 .dropdown a:hover,
-.dropdown a.active {
-  color: #1a1a1a;
-}
-
+.dropdown a.active,
 .active {
   color: #1a1a1a;
 }
@@ -84,13 +76,5 @@
     top: 1rem;
     left: 1rem;
     right: 1rem;
-  }
-
-  .leftGroup {
-    gap: 0.75rem;
-  }
-
-  .brand {
-    font-size: 2rem;
   }
 }

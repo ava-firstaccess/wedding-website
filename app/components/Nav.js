@@ -39,7 +39,11 @@ export default function Nav() {
 
   return (
     <nav className={styles.nav}>
-      <div className={styles.leftGroup} ref={menuRef}>
+      <Link href="/" className={styles.brand}>
+        The Bossons
+      </Link>
+
+      <div className={styles.menuWrap} ref={menuRef}>
         <button
           type="button"
           className={styles.menuButton}
@@ -51,10 +55,6 @@ export default function Nav() {
           <span />
           <span />
         </button>
-
-        <Link href="/" className={styles.brand}>
-          The Bossons
-        </Link>
 
         {open ? (
           <div className={styles.dropdown}>
