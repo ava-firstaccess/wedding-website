@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
 import Image from 'next/image'
+import { useEffect, useRef } from 'react'
 import Nav from './components/Nav'
 import WelcomeOverlay from './components/WelcomeOverlay'
 import styles from './page.module.css'
@@ -10,7 +10,6 @@ export default function Home() {
   const heroRef = useRef(null)
 
   useEffect(() => {
-    // Fade in after welcome overlay starts fading (2s delay)
     const timer = setTimeout(() => {
       if (heroRef.current) heroRef.current.classList.add(styles.visible)
     }, 800)
