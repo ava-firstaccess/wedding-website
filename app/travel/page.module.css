@@ -53,7 +53,7 @@
 
 .storyTitle {
   font-family: 'AlmondyItalic', 'Almondy', var(--font-lora), serif;
-  font-size: clamp(3.2rem, 8vw, 6.5rem);
+  font-size: 32px;
   font-style: italic;
   font-weight: 700;
   line-height: 1.05;
@@ -89,7 +89,7 @@
 
 .storyInvitation {
   font-family: 'AlmondyItalic', 'Almondy', var(--font-lora), serif;
-  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-size: 22px;
   font-style: italic;
   font-weight: 700;
   margin-bottom: 1.5rem;
@@ -210,7 +210,7 @@
   margin: 0;
   font-family: 'Almondy', var(--font-lora), serif;
   font-weight: 700;
-  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-size: 22px;
   line-height: 1.12;
 }
 
@@ -219,7 +219,7 @@
   font-family: 'AlmondyItalic', 'Almondy', var(--font-lora), serif;
   font-style: italic;
   font-weight: 700;
-  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-size: 16px;
   line-height: 1.25;
 }
 
@@ -249,7 +249,7 @@
   margin: 0.8rem 0 1.2rem;
   font-family: 'Almondy', var(--font-lora), serif;
   font-weight: 700;
-  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-size: 22px;
   line-height: 1.12;
 }
 
@@ -266,7 +266,7 @@
   font-family: 'AlmondyItalic', 'Almondy', var(--font-lora), serif;
   font-style: italic;
   font-weight: 700;
-  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-size: 16px;
   line-height: 1.25;
 }
 

@@ -18,7 +18,7 @@
 
 .title {
   font-family: 'AlmondyItalic', 'Almondy', var(--font-lora), serif;
-  font-size: clamp(3.2rem, 8vw, 6.5rem);
+  font-size: 32px;
   font-style: italic;
   font-weight: 700;
   line-height: 1.05;
@@ -26,7 +26,7 @@
 
 .subtitle {
   font-family: 'Almondy', var(--font-lora), serif;
-  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-size: 22px;
   font-weight: 700;
   line-height: 1.12;
 }
